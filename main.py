@@ -62,7 +62,7 @@ def handle_message(event):
             alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
        
-    elif text == 'aaaa':
+    elif event.message.text == 'aaaa':
         bubble = BubbleContainer(
             direction='ltr',
             hero=ImageComponent(
