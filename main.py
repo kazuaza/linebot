@@ -34,21 +34,12 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if event.message.text == 'start':
+    text = event.message.text
+    if text == 'start':
         buttons_template = ButtonsTemplate(
-            title='どの機能を利用しますか？',
-            actions=[
+            title='どの機能を利用しますか？', actions=[
                 MessageAction(label='①業界について',
-                              text='''
-                              メーカー
-                              サービス・インフラ
-                              商社
-                              ソフトウェア
-                              小売
-                              広告・出版・マスコミ
-                              金融
-                              官公庁・公社・団体
-                              '''),
+                              text='test'),
                 MessageAction(label='②就活ツールについて',
                               text='test'),
                 MessageAction(label='③インターンについて',
