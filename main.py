@@ -48,7 +48,8 @@ def handle_message(event):
                               広告・出版・マスコミ
                               金融
                               官公庁・公社・団体
-                              '''))
+                              ''')),
+                URIAction(label='Go to line.me', uri='https://line.me')
 #                 MessageAction(label='②就活ツールについて', text='test'),
 #                 MessageAction(label='③インターンについて', text='test'),
 #                 MessageAction(label='④OBOG訪問について', text='test'),
