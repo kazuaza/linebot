@@ -55,7 +55,7 @@ def handle_message(event):
                 MessageAction(label='①業界について',text='test'),
                 MessageAction(label='②就活ツールについて', text='test'),
                 MessageAction(label='③インターンについて', text='test'),
-                MessageAction(label='④OB・OG訪問について', text='test'),
+#                 MessageAction(label='④OBOG訪問について', text='test'),
                 MessageAction(label='⑤その他（感想等）', text='test')
             ])
         template_message = TemplateSendMessage(template=buttons_template)
