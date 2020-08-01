@@ -78,8 +78,7 @@ def handle_message(event):
         buttons_template = ButtonsTemplate(
             title='どの機能を使用しますか？', text='（下記ボタンを押してください）', actions=[
                 MessageAction(label='①業界について', 
-                              text='''
-                              メーカー
+                              text=('''メーカー
                               サービス・インフラ
                               商社
                               ソフトウェア
@@ -87,7 +86,7 @@ def handle_message(event):
                               広告・出版・マスコミ
                               金融
                               官公庁・公社・団体
-                              '''),
+                              ''')),
                 MessageAction(label='Translate Rice', text='米'),
                 MessageAction(label='Translate Rice', text='米'),
                 MessageAction(label='Translate Rice', text='米')
