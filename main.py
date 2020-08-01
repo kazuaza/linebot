@@ -33,8 +33,8 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     text = event.message.text
+    print('a')
     return text
-
 
 while True:
     text = handle_message(MessageEvent)
