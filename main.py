@@ -38,8 +38,7 @@ def handle_message(event):
     if text == 'start':
         buttons_template = ButtonsTemplate(
             title='どの機能を使用しますか？', text='（下記ボタンを押してください）', actions=[
-                MessageAction(label='①業界について',
-                              text='メーカー\nサービス・インフラ\n商社\nソフトウェア\n小売\n広告・出版・マスコミ\n金融\n官公庁・公社・団体'),
+                MessageAction(label='①業界について',text='test'),
                 MessageAction(label='②就活ツールについて', text='test'),
                 MessageAction(label='③インターンについて', text='test'),
                 MessageAction(label='④OB・OG訪問について', text='test'),
