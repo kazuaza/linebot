@@ -36,25 +36,25 @@ def handle_message(event):
     line_bot_api.reply_message(MessageEvent.reply_token, TextSendMessage(text=text))
     return text
 
-while True:
-    text = handle_message(MessageEvent)
-    if num == 0 and text == 'start':
-        text1 = '''
-        どの機能を利用しますか？
+# while True:
+#     text = handle_message(MessageEvent)
+#     if num == 0 and text == 'start':
+#         text1 = '''
+#         どの機能を利用しますか？
         
-        ①業界について
-        ②就活ツールについて
-        ③インターンについて
-        ④OB・OG訪問について
-        ⑤その他（感想等）
-        '''
-        num += 1
-        line_bot_api.reply_message(MessageEvent.reply_token, TextSendMessage(text=text1))
-        break
-    else:
-        text_exception = 'サービス利用の際は start と打ってください'
-        line_bot_api.reply_message(MessageEvent.reply_token, TextSendMessage(text=text_exception))
-        continue
+#         ①業界について
+#         ②就活ツールについて
+#         ③インターンについて
+#         ④OB・OG訪問について
+#         ⑤その他（感想等）
+#         '''
+#         num += 1
+#         line_bot_api.reply_message(MessageEvent.reply_token, TextSendMessage(text=text1))
+#         break
+#     else:
+#         text_exception = 'サービス利用の際は start と打ってください'
+#         line_bot_api.reply_message(MessageEvent.reply_token, TextSendMessage(text=text_exception))
+#         continue
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT'))
