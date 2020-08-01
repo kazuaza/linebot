@@ -38,17 +38,7 @@ def handle_message(event):
     if text == 'start':
         buttons_template = ButtonsTemplate(
             title='どの機能を使用しますか？', text='（下記ボタンを押してください）', actions=[
-                MessageAction(label='①業界について',
-                              text=('''
-                              メーカー
-                              サービス・インフラ
-                              商社
-                              ソフトウェア
-                              小売
-                              広告・出版・マスコミ
-                              金融
-                              官公庁・公社・団体
-                              ''')),
+                MessageAction(label='①業界について', text='test'),
                 URIAction(label='Go to line.me', uri='https://line.me')
 #                 MessageAction(label='②就活ツールについて', text='test'),
 #                 MessageAction(label='③インターンについて', text='test'),
@@ -57,8 +47,6 @@ def handle_message(event):
             ])
         template_message = TemplateSendMessage(template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
-    else:
-        pass
 
 
 if __name__ == '__main__':
