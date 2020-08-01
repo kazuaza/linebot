@@ -4,21 +4,7 @@ import os
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
-    SourceUser, SourceGroup, SourceRoom,
-    TemplateSendMessage, ConfirmTemplate, MessageAction,
-    ButtonsTemplate, ImageCarouselTemplate, ImageCarouselColumn, URIAction,
-    PostbackAction, DatetimePickerAction,
-    CameraAction, CameraRollAction, LocationAction,
-    CarouselTemplate, CarouselColumn, PostbackEvent,
-    StickerMessage, StickerSendMessage, LocationMessage, LocationSendMessage,
-    ImageMessage, VideoMessage, AudioMessage, FileMessage,
-    UnfollowEvent, FollowEvent, JoinEvent, LeaveEvent, BeaconEvent,
-    MemberJoinedEvent, MemberLeftEvent,
-    FlexSendMessage, BubbleContainer, ImageComponent, BoxComponent,
-    TextComponent, SpacerComponent, IconComponent, ButtonComponent,
-    SeparatorComponent, QuickReply, QuickReplyButton,
-    ImageSendMessage)
+    MessageEvent, TextMessage, TemplateSendMessage, ButtonsTemplate, MessageAction)
 
 
 app = Flask(__name__)
@@ -47,34 +33,36 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-#     if text == 'start':
-#         buttons_template = ButtonsTemplate(
-#             title='どの機能を利用しますか？', actions=[
-#                 MessageAction(label='①業界について',
-#                               text='test'),
-#                 MessageAction(label='②就活ツールについて',
-#                               text='test'),
-#                 MessageAction(label='③インターンについて',
-#                               text='test'),
-#                 MessageAction(label='④OB・OG訪問について',
-#                               text='test'),
-#                 MessageAction(label='⑤その他（感想等）',
-#                               text='test')
-#             ])
-#         template_message = TemplateSendMessage(template=buttons_template)
-#         line_bot_api.reply_message(event.reply_token, template_message)
-    
-    if event.message.text == 'buttons':
-        buttons_template = ButtonsTemplate(
-            title='My buttons sample', text='Hello, my buttons', actions=[
-                URIAction(label='Go to line.me', uri='https://line.me'),
-                PostbackAction(label='ping', data='ping'),
-                PostbackAction(label='ping with text', data='ping', text='ping'),
-                MessageAction(label='Translate Rice', text='米')
-            ])
-        template_message = TemplateSendMessage(
-            alt_text='Buttons alt text', template=buttons_template)
-        line_bot_api.reply_message(event.reply_token, template_message)
+    text = event.message.text
+    if text == 'test':
+        line_bot_api.reply_message(event.reply_token, text)
+    # if text == 'start':
+    #     buttons_template = ButtonsTemplate(
+    #         title='どの機能を利用しますか？', actions=[
+    #             MessageAction(label='①業界について',
+    #                           text='''
+    #                           メーカー
+    #                           サービス・インフラ
+    #                           商社
+    #                           ソフトウェア
+    #                           小売
+    #                           広告・出版・マスコミ
+    #                           金融
+    #                           官公庁・公社・団体
+    #                           '''),
+    #             MessageAction(label='②就活ツールについて',
+    #                           text='test'),
+    #             MessageAction(label='③インターンについて',
+    #                           text='test'),
+    #             MessageAction(label='④OB・OG訪問について',
+    #                           text='test'),
+    #             MessageAction(label='⑤その他（感想等）',
+    #                           text='test')
+    #         ])
+    #     template_message = TemplateSendMessage(template=buttons_template)
+    #     line_bot_api.reply_message(event.reply_token, template_message)
+    # else:
+    #     pass
 
 
 if __name__ == '__main__':
