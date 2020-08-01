@@ -34,7 +34,7 @@ def callback():
 def handle_message(event):
     text = event.message.text
     line_bot_api.reply_message(MessageEvent.reply_token, TextSendMessage(text=text))
-    return text
+#     return text
 
 # while True:
 #     text = handle_message(MessageEvent)
