@@ -32,9 +32,10 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    for i in range(2):
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
 
-handle_message(MessageEvent)
 
 #     return text
 
