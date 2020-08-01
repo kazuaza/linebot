@@ -69,6 +69,8 @@ def handle_message(event):
                 PostbackAction(label='ping with text', data='ping', text='ping'),
                 MessageAction(label='Translate Rice', text='米')
             ])
+        template_message = TemplateSendMessage(template=buttons_template)
+        line_bot_api.reply_message(event.reply_token, template_message)
 
 
 if __name__ == '__main__':
