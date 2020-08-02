@@ -87,9 +87,9 @@ def handle_text_message(event):
         ax.axis('off')
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
-        plt.savefig('./static/test.png', dpi=1000)
+        plt.savefig('test.png', dpi=1000)
         
-        url = request.url_root + '/static/test.png'
+        url = request.url_root + '/test.png'
         line_bot_api.reply_message(event.reply_token, ImageSendMessage(url, url))
 
 
