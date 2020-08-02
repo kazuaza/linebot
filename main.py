@@ -68,8 +68,8 @@ def handle_text_message(event):
         line_bot_api.reply_message(event.reply_token, template_message)
     
     elif text == 'path':
-        path = os.getcwd()
-        line_bot_api.reply_message(event.reply_token, path)
+        path = 'aaa'
+        line_bot_api.reply_message(event.reply_token, 'aaa')
 
     # elif text == '200':
 
