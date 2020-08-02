@@ -47,7 +47,7 @@ def handle_text_message(event):
 #         template_message = TemplateSendMessage(template=buttons_template)
 #         line_bot_api.reply_message(event.reply_token, template_message)
         
-    if text == 'buttons':
+    elif text == 'buttons':
         buttons_template = ButtonsTemplate(
             title='My buttons sample', text='Hello, my buttons', actions=[
                 URIAction(label='Go to line.me', uri='https://line.me'),
@@ -55,7 +55,8 @@ def handle_text_message(event):
                 PostbackAction(label='ping with text', data='ping', text='ping'),
                 MessageAction(label='Translate Rice', text='米')
             ])
-        template_message = TemplateSendMessage(template=buttons_template)
+        template_message = TemplateSendMessage(
+            alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
 
 
