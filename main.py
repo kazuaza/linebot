@@ -80,20 +80,52 @@ def handle_text_message(event):
         df = pd.DataFrame(empty_list, columns=['サイト名', '割合']).sort_values(by='割合', ascending=False)
         df['割合'] = df['割合'].astype(str).apply(lambda y: y + '%')
         df.index = np.arange(1, df.shape[0] + 1, 1)
-        df.index.name = '順位'
 
         fig, ax = plt.subplots(figsize=(4, 4))
         ax.axis('off')
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
-        plt.title('工房員 利用就活サイト一覧\n')
-        plt.savefig('./static/test.png', dpi=300)
+        plt.suptitle('工房員 利用就活サイト一覧', fontsize=12)
+        plt.title('（回答数: {}名）'.format(df.shape[0]), fontsize=8)
+        plt.savefig('./static/test.png', dpi=250)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test.png'
 
         others = np.setdiff1d(sozo_df['サイト'].apply(lambda y: y.split(';')[-1]).values,
                               ['マイナビ', 'リクナビ', 'unistyle', 'ONE CAREER', '就活ノート', 'Open Work',
                                'みんなの就職活動', '外資就活ドットコム', 'キャリタス就活', 'クリ博ナビ', '利用していない'])
-        send_text = '＜その他＞\n\n'
+        send_text = '＜その他＞\n'
+        for i in range(len(others)):
+            if i == len(others)-1:
+                send_text += '・{}'.format(others[i])
+            else:
+                send_text += '・{}\n'.format(others[i])
+
+        line_bot_api.reply_message(event.reply_token,
+                                   [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
+
+    elif text == 'B1':
+        empty_list = []
+        for book in ['絶対内定2021シリーズ', '就職活動が面白いほどうまくいく確実内定', '四季報', '最新！SPI3',
+                     '史上最強SPI&テストセンター', '利用していない']:
+            empty_list.append([book, sozo_df['本'].apply(lambda y: site in y).mean().round(3) * 100])
+
+        df = pd.DataFrame(empty_list, columns=['書籍名', '割合']).sort_values(by='割合', ascending=False)
+        df['割合'] = df['割合'].astype(str).apply(lambda y: y + '%')
+        df.index = np.arange(1, df.shape[0] + 1, 1)
+
+        fig, ax = plt.subplots(figsize=(4, 4))
+        ax.axis('off')
+        ax.axis('tight')
+        ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
+        plt.suptitle('工房員 利用就活本一覧', fontsize=12)
+        plt.title('（回答数: {}名）'.format(df.shape[0]), fontsize=8)
+        plt.savefig('./static/test.png', dpi=250)
+        url = 'https://sozo-recommendation.herokuapp.com' + '/static/test.png'
+
+        others = np.setdiff1d(sozo_df['本'].apply(lambda y: y.split(';')[-1]).values,
+                              ['絶対内定2021シリーズ', '就職活動が面白いほどうまくいく確実内定', '四季報', '最新！SPI3',
+                               '史上最強SPI&テストセンター', '利用していない'])
+        send_text = '＜その他＞\n'
         for i in range(len(others)):
             if i == len(others)-1:
                 send_text += '・{}'.format(others[i])
