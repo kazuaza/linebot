@@ -62,8 +62,8 @@ def handle_text_message(event):
         
     if text == 'buttons':
         buttons_template = ButtonsTemplate(
-            title='My buttons sample', text='Hello, my buttons', actions=[
-                URIAction(label='Go to line.me', uri='https://line.me'),
+            title='どの機能を使用しますか？', text='（下記ボタンを押してください）', actions=[
+                MessageAction(label='Translate Rice', text='米'),
                 MessageAction(label='Translate Rice', text='米'),
                 MessageAction(label='Translate Rice', text='米'),
                 MessageAction(label='Translate Rice', text='米')
