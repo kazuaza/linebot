@@ -83,13 +83,13 @@ def handle_text_message(event):
         df.index = np.arange(1, df.shape[0] + 1, 1)
         df.index.name = '順位'
 
-        fig, ax = plt.subplots(figsize=(2, 2))
+        fig, ax = plt.subplots(figsize=(4, 4))
         ax.axis('off')
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
-        plt.savefig('./test.png', dpi=50)
+        plt.savefig('./static/test.png', dpi=1000)
         
-        url = 'https://sozo-recommendation.herokuapp.com' + '/test.png'
+        url = 'https://sozo-recommendation.herokuapp.com' + '/static/test.png'
         line_bot_api.reply_message(event.reply_token, ImageSendMessage(url, url))
 
 
