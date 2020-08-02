@@ -63,13 +63,13 @@ def handle_text_message(event):
     if text == 'start':
         buttons_template = ButtonsTemplate(
             title='どの機能を使用しますか？', text='（下記ボタンを押してください）', actions=[
-                MessageAction(label='Translate Rice', text='米'),
-                MessageAction(label='Translate Rice', text='米'),
-                MessageAction(label='Translate Rice', text='米'),
-                MessageAction(label='Translate Rice', text='米')
+                MessageAction(label='①業界について', text='米'),
+                MessageAction(label='②就活ツールについて', text='米'),
+                MessageAction(label='③インターンについて', text='米'),
+                MessageAction(label='④OBOG訪問について', text='米')
             ])
         template_message = TemplateSendMessage(
-            alt_text='Buttons alt text', template=buttons_template)
+            alt_text='alt_text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
 
 
