@@ -24,7 +24,7 @@ from linebot.models import (
     ImageSendMessage)
 
 
-# test
+# test code
 sozo_df = pd.read_csv('./sozo_answer_anony.csv')
 
 app = Flask(__name__)
