@@ -56,7 +56,7 @@ def handle_text_message(event):
                 MessageAction(label='①業界について',
                               text='＜興味のある業界の該当番号を打ってください＞\n\n100：メーカー\n101：サービス・インフラ\n102：商社' \
                                    '\n103：ソフトウェア\n104：小売\n105：広告・出版・マスコミ\n106：金融\n107：官公庁・公社・団体'),
-#                 MessageAction(label='②就活ツールについて',
+                MessageAction(label='②就活ツールについて',
                               text='＜興味のある就活ツールの該当番号を打ってください＞\n\n200：サイト\n201：本\n202：エージェント\n203：イベント・セミナー'),
                 MessageAction(label='③インターンについて',
                               text='＜興味のある項目の該当番号を打ってください＞\n\n300：業界について\n301：時期について\n302：期間について'),
@@ -68,8 +68,8 @@ def handle_text_message(event):
         line_bot_api.reply_message(event.reply_token, template_message)
     
     elif text == 'path':
-        path = 'aaa'
-        line_bot_api.reply_message(event.reply_token, 'aaa')
+        path = os.getcwd()
+        line_bot_api.reply_message(event.reply_token, path)
 
     # elif text == '200':
 
