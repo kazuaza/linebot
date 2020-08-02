@@ -5,7 +5,7 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import (
     MessageEvent, TextMessage, TemplateSendMessage, 
-    ButtonsTemplate, MessageAction)
+    ButtonsTemplate, MessageAction, URIAction, PostbackAction)
 
 
 app = Flask(__name__)
@@ -35,16 +35,25 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     text = event.message.text
-    if text == 'start':
+#     if text == 'start':
+#         buttons_template = ButtonsTemplate(
+#             title='どの機能を使用しますか？', text='（下記ボタンを押してください）', 
+#             actions=[MessageAction(label='①業界について', text='test'),
+#                 MessageAction(label='②就活ツールについて', text='test'),
+#                 MessageAction(label='③インターンについて', text='test'),
+#                 MessageAction(label='④OBOG訪問について', text='test'),
+#                 MessageAction(label='⑤その他', text='test')])
+#         template_message = TemplateSendMessage(template=buttons_template)
+#         line_bot_api.reply_message(event.reply_token, template_message)
+
+    if text == 'buttons':
         buttons_template = ButtonsTemplate(
-            title='どの機能を使用しますか？', text='（下記ボタンを押してください）', 
-            actions=[MessageAction(label='①業界について', text='test'),
-                MessageAction(label='②就活ツールについて', text='test'),
-                MessageAction(label='③インターンについて', text='test'),
-                MessageAction(label='④OBOG訪問について', text='test'),
-                MessageAction(label='⑤その他', text='test')])
-        template_message = TemplateSendMessage(template=buttons_template)
-        line_bot_api.reply_message(event.reply_token, template_message)
+            title='My buttons sample', text='Hello, my buttons', actions=[
+                URIAction(label='Go to line.me', uri='https://line.me'),
+                PostbackAction(label='ping', data='ping'),
+                PostbackAction(label='ping with text', data='ping', text='ping'),
+                MessageAction(label='Translate Rice', text='米')
+            ])
 
 
 if __name__ == '__main__':
