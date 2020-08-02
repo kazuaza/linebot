@@ -33,7 +33,7 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
+def handle_text_message(event):
     text = event.message.text
 #     if text == 'start':
 #         buttons_template = ButtonsTemplate(
