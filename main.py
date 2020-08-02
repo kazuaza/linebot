@@ -72,7 +72,7 @@ def handle_text_message(event):
             alt_text='alt_text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
 
-    elif text == 'B0':
+    elif text == 'B':
         empty_list = []
         for site in ['マイナビ', 'リクナビ', 'unistyle', 'ONE CAREER', '就活ノート', 'Open Work',
                      'みんなの就職活動', '外資就活ドットコム', 'キャリタス就活', 'クリ博ナビ', '利用していない']:
