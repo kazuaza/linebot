@@ -1,4 +1,5 @@
 from flask import Flask, request, abort
+import glob
 import os
 
 import numpy as np
@@ -62,7 +63,7 @@ def handle_text_message(event):
                 MessageAction(label='③インターンについて',
                               text='＜興味のある項目の該当番号を打ってください＞\n\n300：業界について\n301：時期について\n302：期間について'),
                 MessageAction(label='④OBOG訪問について',
-                              text=path)
+                              text='{}'.format(glob.glob(path)))
             ])
         template_message = TemplateSendMessage(
             alt_text='alt_text', template=buttons_template)
