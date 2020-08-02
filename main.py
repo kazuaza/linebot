@@ -1,6 +1,8 @@
 from flask import Flask, request, abort
 import os
 
+import numpy as np
+import pandas as pd
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import (
@@ -19,7 +21,6 @@ from linebot.models import (
     TextComponent, SpacerComponent, IconComponent, ButtonComponent,
     SeparatorComponent, QuickReply, QuickReplyButton,
     ImageSendMessage)
-
 
 app = Flask(__name__)
 
@@ -48,23 +49,26 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
     text = event.message.text
-        
+
     if text == 'start':
         buttons_template = ButtonsTemplate(
             title='どの機能を使用しますか？', text='（下記ボタンを押してください）', actions=[
-                MessageAction(label='①業界について', 
-                              text='＜興味のある業界の該当番号を打ってください＞\n\n100：メーカー\n101：サービス・インフラ\n102：商社'\
-                              '\n103：ソフトウェア\n104：小売\n105：広告・出版・マスコミ\n106：金融\n107：官公庁・公社・団体'),
-                MessageAction(label='②就活ツールについて', 
+                MessageAction(label='①業界について',
+                              text='＜興味のある業界の該当番号を打ってください＞\n\n100：メーカー\n101：サービス・インフラ\n102：商社' \
+                                   '\n103：ソフトウェア\n104：小売\n105：広告・出版・マスコミ\n106：金融\n107：官公庁・公社・団体'),
+                MessageAction(label='②就活ツールについて',
                               text='＜興味のある就活ツールの該当番号を打ってください＞\n\n200：サイト\n201：本\n202：エージェント\n203：イベント・セミナー'),
-                MessageAction(label='③インターンについて', 
+                MessageAction(label='③インターンについて',
                               text='＜興味のある項目の該当番号を打ってください＞\n\n300：業界について\n301：時期について\n302：期間について'),
-                MessageAction(label='④OBOG訪問について', 
-                              text='＜興味のある項目の該当番号を打ってください＞\n\n400：人数について\n401：連絡ツールについて')
-            ])
+                MessageAction(label='④OBOG訪問について',
+                              text=os.getcwd())])
+                              # text='＜興味のある項目の該当番号を打ってください＞\n\n400：人数について\n401：連絡ツールについて')
+            # ])
         template_message = TemplateSendMessage(
             alt_text='alt_text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
+
+    # elif text == '200':
 
 
 if __name__ == '__main__':
