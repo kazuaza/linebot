@@ -2,6 +2,8 @@ from flask import Flask, request, abort
 import glob
 import os
 
+import matplotlib.pyplot as plt
+import japanize_matplotlib
 import numpy as np
 import pandas as pd
 from linebot import LineBotApi, WebhookHandler
@@ -24,9 +26,7 @@ from linebot.models import (
     ImageSendMessage)
 
 
-# test code
 sozo_df = pd.read_csv('./sozo_answer_anony.csv')
-
 app = Flask(__name__)
 
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ['YOUR_CHANNEL_ACCESS_TOKEN']
@@ -66,13 +66,28 @@ def handle_text_message(event):
                 MessageAction(label='③インターンについて',
                               text='＜興味のある項目の該当番号を打ってください＞\n\n300：業界について\n301：時期について\n302：期間について'),
                 MessageAction(label='④OBOG訪問について',
-                              text=sozo_df['メーカー'][0])
+                              text='＜興味のある項目の該当番号を打ってください＞\n\n400：人数について\n401：連絡ツールについて')
             ])
         template_message = TemplateSendMessage(
             alt_text='alt_text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
 
-    # elif text == '200':
+    elif text == '200':
+        empty_list = []
+        for site in ['マイナビ', 'リクナビ', 'unistyle', 'ONE CAREER', '就活ノート', 'Open Work',
+                     'みんなの就職活動', '外資就活ドットコム', 'キャリタス就活', 'クリ博ナビ', '利用していない']:
+            empty_list.append([site, sozo_df['サイト'].apply(lambda y: site in y).mean().round(3) * 100])
+
+        df = pd.DataFrame(empty_list, columns=['サイト名', '割合']).sort_values(by='割合', ascending=False)
+        df['割合'] = df['割合'].astype(str).apply(lambda y: y + '%')
+        df.index = np.arange(1, df.shape[0] + 1, 1)
+        df.index.name = '順位'
+
+        fig, ax = plt.subplots(figsize=(4, 4))
+        ax.axis('off')
+        ax.axis('tight')
+        ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
+        plt.savefig('./test.png', dpi=1000)
 
 
 if __name__ == '__main__':
