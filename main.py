@@ -107,7 +107,7 @@ def handle_text_message(event):
         empty_list = []
         for book in ['絶対内定2021シリーズ', '就職活動が面白いほどうまくいく確実内定', '四季報', '最新！SPI3',
                      '史上最強SPI&テストセンター', '利用していない']:
-            empty_list.append([book, sozo_df['本'].apply(lambda y: site in y).mean().round(3) * 100])
+            empty_list.append([book, sozo_df['本'].apply(lambda y: book in y).mean().round(3) * 100])
 
         df = pd.DataFrame(empty_list, columns=['書籍名', '割合']).sort_values(by='割合', ascending=False)
         df['割合'] = df['割合'].astype(str).apply(lambda y: y + '%')
