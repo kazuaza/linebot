@@ -59,20 +59,20 @@ def handle_text_message(event):
         buttons_template = ButtonsTemplate(
             title='どの機能を使用しますか？', text='（下記ボタンを押してください）', actions=[
                 MessageAction(label='①業界について',
-                              text='＜興味のある業界の該当番号を打ってください＞\n\n100：メーカー\n101：サービス・インフラ\n102：商社' \
-                                   '\n103：ソフトウェア\n104：小売\n105：広告・出版・マスコミ\n106：金融\n107：官公庁・公社・団体'),
+                              text='＜興味のある業界の該当番号を打ってください＞\n\nA0：メーカー\nA1：サービス・インフラ\nA2：商社' \
+                                   '\nA3：ソフトウェア\nA4：小売\nA5：広告・出版・マスコミ\nA6：金融\nA7：官公庁・公社・団体'),
                 MessageAction(label='②就活ツールについて',
-                              text='＜興味のある就活ツールの該当番号を打ってください＞\n\n200：サイト\n201：本\n202：エージェント\n203：イベント・セミナー'),
+                              text='＜興味のある就活ツールの該当番号を打ってください＞\n\nB0：サイト\nB1：本\nB2：エージェント\nB3：イベント・セミナー'),
                 MessageAction(label='③インターンについて',
-                              text='＜興味のある項目の該当番号を打ってください＞\n\n300：業界について\n301：時期について\n302：期間について'),
+                              text='＜興味のある項目の該当番号を打ってください＞\n\nC0：業界について\nC1：時期について\nC2：期間について'),
                 MessageAction(label='④OBOG訪問について',
-                              text='＜興味のある項目の該当番号を打ってください＞\n\n400：人数について\n401：連絡ツールについて')
+                              text='＜興味のある項目の該当番号を打ってください＞\n\nD0：人数について\nD1：連絡ツールについて')
             ])
         template_message = TemplateSendMessage(
             alt_text='alt_text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
 
-    elif str(text) == '200':
+    elif text == 'B0':
         empty_list = []
         for site in ['マイナビ', 'リクナビ', 'unistyle', 'ONE CAREER', '就活ノート', 'Open Work',
                      'みんなの就職活動', '外資就活ドットコム', 'キャリタス就活', 'クリ博ナビ', '利用していない']:
