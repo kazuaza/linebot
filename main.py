@@ -60,9 +60,7 @@ def handle_text_message(event):
                 MessageAction(label='③インターンについて', 
                               text='＜興味のある項目の該当番号を打ってください＞\n\n300：業界について\n301：時期について\n302：期間について'),
                 MessageAction(label='④OBOG訪問について', 
-                              text='＜興味のある項目の該当番号を打ってください＞\n\n400：人数について\n401：連絡ツールについて'),
-                MessageAction(label='⑤その他', 
-                              text='＜興味のある項目の該当番号を打ってください＞\n\n500：役立った事について\n501：後悔した事について\n502：全体の感想')
+                              text='＜興味のある項目の該当番号を打ってください＞\n\n400：人数について\n401：連絡ツールについて')
             ])
         template_message = TemplateSendMessage(
             alt_text='alt_text', template=buttons_template)
