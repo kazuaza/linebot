@@ -112,8 +112,8 @@ def handle_text_message(event):
         df = pd.DataFrame(empty_list, columns=['書籍名', '割合']).sort_values(by='割合', ascending=False)
         df['割合'] = df['割合'].astype(str).apply(lambda y: y[:4] + '%')
         df.index = np.arange(1, df.shape[0] + 1, 1)
-
-        fig, ax = plt.subplots(figsize=(4, 4))
+        
+        fig, ax = plt.subplots(figsize=(8, 8))
         ax.axis('off')
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
