@@ -60,7 +60,7 @@ def handle_text_message(event):
 #         template_message = TemplateSendMessage(template=buttons_template)
 #         line_bot_api.reply_message(event.reply_token, template_message)
         
-    if text == 'buttons':
+    if text == 'start':
         buttons_template = ButtonsTemplate(
             title='どの機能を使用しますか？', text='（下記ボタンを押してください）', actions=[
                 MessageAction(label='Translate Rice', text='米'),
