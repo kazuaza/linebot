@@ -1,2 +1,4 @@
 Flask==1.1.1
 line-bot-sdk==1.16.0
+Pandas==1.0.1
+Numpy==1.18.1
