@@ -88,18 +88,18 @@ def handle_text_message(event):
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
         plt.title('工房員 利用就活サイト一覧\n')
         plt.savefig('./static/test.png', dpi=300)
+        url = 'https://sozo-recommendation.herokuapp.com' + '/static/test.png'
 
         others = np.setdiff1d(sozo_df['サイト'].apply(lambda y: y.split(';')[-1]).values,
                               ['マイナビ', 'リクナビ', 'unistyle', 'ONE CAREER', '就活ノート', 'Open Work',
                                'みんなの就職活動', '外資就活ドットコム', 'キャリタス就活', 'クリ博ナビ', '利用していない'])
-        send_text = '＜その他＞\n'
+        send_text = '＜その他＞\n\n'
         for i in range(len(others)):
             if i == len(others)-1:
-                send_text += '・ {}'.format(others[i])
+                send_text += '・{}'.format(others[i])
             else:
-                send_text += '・ {}\n'.format(others[i])
+                send_text += '・{}\n'.format(others[i])
 
-        url = 'https://sozo-recommendation.herokuapp.com' + '/static/test.png'
         line_bot_api.reply_message(event.reply_token,
                                    [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
 
