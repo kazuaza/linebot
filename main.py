@@ -51,6 +51,7 @@ def handle_text_message(event):
     text = event.message.text
 
     if text == 'start':
+        path = os.getcwd()
         buttons_template = ButtonsTemplate(
             title='どの機能を使用しますか？', text='（下記ボタンを押してください）', actions=[
                 MessageAction(label='①業界について',
@@ -61,15 +62,11 @@ def handle_text_message(event):
                 MessageAction(label='③インターンについて',
                               text='＜興味のある項目の該当番号を打ってください＞\n\n300：業界について\n301：時期について\n302：期間について'),
                 MessageAction(label='④OBOG訪問について',
-                              text='＜興味のある項目の該当番号を打ってください＞\n\n400：人数について\n401：連絡ツールについて')
+                              text=path)
             ])
         template_message = TemplateSendMessage(
             alt_text='alt_text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
-    
-    elif text == 'path':
-        path = os.getcwd()
-        line_bot_api.reply_message(event.reply_token, path)
 
     # elif text == '200':
 
