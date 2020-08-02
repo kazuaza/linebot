@@ -89,6 +89,10 @@ def handle_text_message(event):
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
         plt.savefig('./test.png', dpi=1000)
 
+        image_message = ImageSendMessage(
+            original_content_url='https://sozo-recommendation.herokuapp.com/test.png')
+        line_bot_api.reply_message(event.reply_token, image_message)
+
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT'))
