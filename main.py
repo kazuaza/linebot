@@ -85,8 +85,7 @@ def handle_text_message(event):
         ax.axis('off')
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
-        plt.suptitle('工房員 利用就活サイト一覧', fontsize=12)
-        plt.title('（回答数: {}名）'.format(sozo_df.shape[0]), fontsize=8)
+        plt.title('工房員 利用就活サイト一覧（回答数:{}名）\n'.format(sozo_df.shape[0]))
         plt.savefig('./static/test.png', dpi=200)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test.png'
 
@@ -113,12 +112,11 @@ def handle_text_message(event):
         df['割合'] = df['割合'].astype(str).apply(lambda y: y[:4] + '%')
         df.index = np.arange(1, df.shape[0] + 1, 1)
 
-        fig, ax = plt.subplots(figsize=(5, 3))
+        fig, ax = plt.subplots(figsize=(5, 2.5))
         ax.axis('off')
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
-        plt.suptitle('工房員 利用就活本一覧', fontsize=12)
-        plt.title('（回答数: {}名）'.format(sozo_df.shape[0]), fontsize=8)
+        plt.title('工房員 利用就活本一覧（回答数:{}名）\n'.format(sozo_df.shape[0]))
         plt.savefig('./static/test.png', dpi=200)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test.png'
 
