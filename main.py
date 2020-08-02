@@ -23,6 +23,10 @@ from linebot.models import (
     SeparatorComponent, QuickReply, QuickReplyButton,
     ImageSendMessage)
 
+
+# test
+sozo_df = pd.read_csv('./sozo_answer_anony.csv')
+
 app = Flask(__name__)
 
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ['YOUR_CHANNEL_ACCESS_TOKEN']
@@ -52,7 +56,6 @@ def handle_text_message(event):
     text = event.message.text
 
     if text == 'start':
-        path = os.getcwd()
         buttons_template = ButtonsTemplate(
             title='どの機能を使用しますか？', text='（下記ボタンを押してください）', actions=[
                 MessageAction(label='①業界について',
@@ -63,7 +66,7 @@ def handle_text_message(event):
                 MessageAction(label='③インターンについて',
                               text='＜興味のある項目の該当番号を打ってください＞\n\n300：業界について\n301：時期について\n302：期間について'),
                 MessageAction(label='④OBOG訪問について',
-                              text='{}'.format(glob.glob(path)))
+                              text=sozo_df['メーカー'][0])
             ])
         template_message = TemplateSendMessage(
             alt_text='alt_text', template=buttons_template)
