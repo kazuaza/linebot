@@ -72,7 +72,7 @@ def handle_text_message(event):
             alt_text='alt_text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
 
-    elif text == 'abc':
+    elif str(text) == '200':
         empty_list = []
         for site in ['マイナビ', 'リクナビ', 'unistyle', 'ONE CAREER', '就活ノート', 'Open Work',
                      'みんなの就職活動', '外資就活ドットコム', 'キャリタス就活', 'クリ博ナビ', '利用していない']:
@@ -87,9 +87,10 @@ def handle_text_message(event):
         ax.axis('off')
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
-        plt.savefig('test.png', dpi=1000)
+        plt.savefig('test.jpeg', dpi=1000)
         
-        url = 'https://sozo-recommendation.herokuapp.com' + '/test.png'
+        url = 'https://sozo-recommendation.herokuapp.com' + '/test.jpeg'
+        app.logger.info("url=" + url)
         line_bot_api.reply_message(event.reply_token, ImageSendMessage(url, url))
 
 
