@@ -61,7 +61,8 @@ def handle_text_message(event):
     
     if text == 'buttons':
         buttons_template = ButtonsTemplate(
-            title='My buttons sample', text='Hello, my buttons', actions=[
+            title='どの機能を使用しますか？', text='（下記ボタンを押してください）', actions=[
+                MessageAction(label='①業界について', text='test'),
                 URIAction(label='Go to line.me', uri='https://line.me'),
                 PostbackAction(label='ping', data='ping'),
                 PostbackAction(label='ping with text', data='ping', text='ping'),
