@@ -88,8 +88,8 @@ def handle_text_message(event):
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
         plt.title('工房員 利用就活サイト一覧（回答数:{}名）'.format(sozo_df.shape[0]))
-        plt.savefig('./static/test.png', dpi=300)
-        url = 'https://sozo-recommendation.herokuapp.com' + '/static/test.png'
+        plt.savefig('./static/test1.png', dpi=300)
+        url = 'https://sozo-recommendation.herokuapp.com' + '/static/test1.png'
 
         others = np.setdiff1d(sozo_df['サイト'].apply(lambda y: y.split(';')[-1]).values,
                               ['マイナビ', 'リクナビ', 'unistyle', 'ONE CAREER', '就活ノート', 'Open Work',
@@ -115,13 +115,13 @@ def handle_text_message(event):
         df['割合'] = df['割合'].astype(str).apply(lambda y: y[:4] + '%')
         df.index = np.arange(1, df.shape[0] + 1, 1)
 
-        fig, ax = plt.subplots(figsize=(5, 2.5))
+        fig, ax = plt.subplots(figsize=(6, 2))
         ax.axis('off')
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
         plt.title('工房員 利用就活本一覧（回答数:{}名）'.format(sozo_df.shape[0]))
-        plt.savefig('./static/test.png', dpi=300)
-        url = 'https://sozo-recommendation.herokuapp.com' + '/static/test.png'
+        plt.savefig('./static/test2.png', dpi=300)
+        url = 'https://sozo-recommendation.herokuapp.com' + '/static/test2.png'
 
         others = np.setdiff1d(sozo_df['本'].apply(lambda y: y.split(';')[-1]).values,
                               ['絶対内定2021シリーズ', '就職活動が面白いほどうまくいく確実内定', '四季報', '最新！SPI3',
