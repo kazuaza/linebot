@@ -79,7 +79,7 @@ def handle_text_message(event):
                      'みんなの就職活動', '外資就活ドットコム', 'キャリタス就活', 'クリ博ナビ', '利用していない']:
             empty_list.append([site, sozo_df['サイト'].apply(lambda y: site in y).mean().round(3) * 100])
 
-        df = pd.DataFrame(empty_list, columns=['サイト名', '割合']).sort_values(by='割合', ascending=False)
+        df = pd.DataFrame(empty_list, columns=['＜サイト名＞', '＜割合＞']).sort_values(by='割合', ascending=False)
         df['割合'] = df['割合'].astype(str).apply(lambda y: y[:4] + '%')
         df.index = np.arange(1, df.shape[0] + 1, 1)
 
@@ -112,11 +112,11 @@ def handle_text_message(event):
                      '史上最強SPI&テストセンター', '利用していない']:
             empty_list.append([book, sozo_df['本'].apply(lambda y: book in y).mean().round(3) * 100])
 
-        df = pd.DataFrame(empty_list, columns=['書籍名', '割合']).sort_values(by='割合', ascending=False)
+        df = pd.DataFrame(empty_list, columns=['＜書籍名＞', '＜割合＞']).sort_values(by='割合', ascending=False)
         df['割合'] = df['割合'].astype(str).apply(lambda y: y[:4] + '%')
         df.index = np.arange(1, df.shape[0] + 1, 1)
 
-        fig, ax = plt.subplots(figsize=(5, 2.2))
+        fig, ax = plt.subplots(figsize=(5, 2.5))
         ax.axis('off')
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
@@ -145,11 +145,11 @@ def handle_text_message(event):
                       'キャリアチケット', '利用していない']:
             empty_list.append([agent, sozo_df['エージェント'].apply(lambda y: agent in y).mean().round(3) * 100])
 
-        df = pd.DataFrame(empty_list, columns=['エージェント名', '割合']).sort_values(by='割合', ascending=False)
+        df = pd.DataFrame(empty_list, columns=['＜エージェント名＞', '＜割合＞']).sort_values(by='割合', ascending=False)
         df['割合'] = df['割合'].astype(str).apply(lambda y: y[:4] + '%')
         df.index = np.arange(1, df.shape[0] + 1, 1)
 
-        fig, ax = plt.subplots(figsize=(5, 2.2))
+        fig, ax = plt.subplots(figsize=(5, 2.5))
         ax.axis('off')
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
