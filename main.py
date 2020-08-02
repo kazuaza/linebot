@@ -53,12 +53,16 @@ def handle_text_message(event):
         buttons_template = ButtonsTemplate(
             title='どの機能を使用しますか？', text='（下記ボタンを押してください）', actions=[
                 MessageAction(label='①業界について', 
-                              text='（興味のある業界の該当番号を打ってください）\n\n100：メーカー\n101：サービス・インフラ\n102：商社'\
+                              text='＜興味のある業界の該当番号を打ってください＞\n\n100：メーカー\n101：サービス・インフラ\n102：商社'\
                               '\n103：ソフトウェア\n104：小売\n105：広告・出版・マスコミ\n106：金融\n107：官公庁・公社・団体'),
                 MessageAction(label='②就活ツールについて', 
-                              text='（興味のある就活ツールの該当番号を打ってください）\n\n200：サイト\n201：本\n202：エージェント\n203：イベント・セミナー'),
-                MessageAction(label='③インターンについて', text='test'),
-                MessageAction(label='④OBOG訪問について', text='test')
+                              text='＜興味のある就活ツールの該当番号を打ってください＞\n\n200：サイト\n201：本\n202：エージェント\n203：イベント・セミナー'),
+                MessageAction(label='③インターンについて', 
+                              text='＜興味のある項目の該当番号を打ってください＞\n\n300：業界について\n301：時期について\n302：期間について'),
+                MessageAction(label='④OBOG訪問について', 
+                              text='＜興味のある項目の該当番号を打ってください＞\n\n400：人数について\n401：連絡ツールについて')
+                MessageAction(label='⑤その他', 
+                              text='＜興味のある項目の該当番号を打ってください＞\n\n500：役立った事について\n501：後悔した事について\n502：全体の感想')
             ])
         template_message = TemplateSendMessage(
             alt_text='alt_text', template=buttons_template)
