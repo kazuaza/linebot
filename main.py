@@ -115,7 +115,7 @@ def handle_text_message(event):
         df['割合'] = df['割合'].astype(str).apply(lambda y: y[:4] + '%')
         df.index = np.arange(1, df.shape[0] + 1, 1)
 
-        fig, ax = plt.subplots(figsize=(6, 2))
+        fig, ax = plt.subplots(figsize=(5.5, 2.2))
         ax.axis('off')
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
@@ -126,6 +126,38 @@ def handle_text_message(event):
         others = np.setdiff1d(sozo_df['本'].apply(lambda y: y.split(';')[-1]).values,
                               ['絶対内定2021シリーズ', '就職活動が面白いほどうまくいく確実内定', '四季報', '最新！SPI3',
                                '史上最強SPI&テストセンター', '利用していない'])
+        send_text = '＜その他＞\n'
+        for i in range(len(others)):
+            if i == len(others)-1:
+                send_text += '・{}'.format(others[i])
+            else:
+                send_text += '・{}\n'.format(others[i])
+
+        line_bot_api.reply_message(event.reply_token,
+                                   [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
+        time.sleep(2)
+
+    elif text == 'B2':
+        empty_list = []
+        for agent in ['大学のキャリアセンター', 'マイナビ新卒紹介', 'リクナビ就職エージェント',
+                      'キャリアチケット', '利用していない']:
+            empty_list.append([agent, sozo_df['本'].apply(lambda y: agent in y).mean().round(3) * 100])
+
+        df = pd.DataFrame(empty_list, columns=['エージェント名', '割合']).sort_values(by='割合', ascending=False)
+        df['割合'] = df['割合'].astype(str).apply(lambda y: y[:4] + '%')
+        df.index = np.arange(1, df.shape[0] + 1, 1)
+
+        fig, ax = plt.subplots(figsize=(5, 2))
+        ax.axis('off')
+        ax.axis('tight')
+        ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
+        plt.title('工房員 利用エージェント一覧（回答数:{}名）'.format(sozo_df.shape[0]))
+        plt.savefig('./static/test3.png', dpi=300)
+        url = 'https://sozo-recommendation.herokuapp.com' + '/static/test3.png'
+
+        others = np.setdiff1d(sozo_df['本'].apply(lambda y: y.split(';')[-1]).values,
+                              ['大学のキャリアセンター', 'マイナビ新卒紹介', 'リクナビ就職エージェント',
+                               'キャリアチケット', '利用していない'])
         send_text = '＜その他＞\n'
         for i in range(len(others)):
             if i == len(others)-1:
