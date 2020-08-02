@@ -78,7 +78,7 @@ def handle_text_message(event):
             empty_list.append([site, sozo_df['サイト'].apply(lambda y: site in y).mean().round(3) * 100])
 
         df = pd.DataFrame(empty_list, columns=['サイト名', '割合']).sort_values(by='割合', ascending=False)
-        df['割合'] = df['割合'].astype(str).apply(lambda y: y + '%')
+        df['割合'] = df['割合'].astype(str).apply(lambda y: y[:4] + '%')
         df.index = np.arange(1, df.shape[0] + 1, 1)
 
         fig, ax = plt.subplots(figsize=(4, 4))
@@ -86,8 +86,8 @@ def handle_text_message(event):
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
         plt.suptitle('工房員 利用就活サイト一覧', fontsize=12)
-        plt.title('（回答数: {}名）'.format(df.shape[0]), fontsize=8)
-        plt.savefig('./static/test.png', dpi=250)
+        plt.title('（回答数: {}名）'.format(sozo_df.shape[0]), fontsize=8)
+        plt.savefig('./static/test.png', dpi=200)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test.png'
 
         others = np.setdiff1d(sozo_df['サイト'].apply(lambda y: y.split(';')[-1]).values,
@@ -110,7 +110,7 @@ def handle_text_message(event):
             empty_list.append([book, sozo_df['本'].apply(lambda y: book in y).mean().round(3) * 100])
 
         df = pd.DataFrame(empty_list, columns=['書籍名', '割合']).sort_values(by='割合', ascending=False)
-        df['割合'] = df['割合'].astype(str).apply(lambda y: y + '%')
+        df['割合'] = df['割合'].astype(str).apply(lambda y: y[:4] + '%')
         df.index = np.arange(1, df.shape[0] + 1, 1)
 
         fig, ax = plt.subplots(figsize=(4, 4))
@@ -118,8 +118,8 @@ def handle_text_message(event):
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
         plt.suptitle('工房員 利用就活本一覧', fontsize=12)
-        plt.title('（回答数: {}名）'.format(df.shape[0]), fontsize=8)
-        plt.savefig('./static/test.png', dpi=250)
+        plt.title('（回答数: {}名）'.format(sozo_df.shape[0]), fontsize=8)
+        plt.savefig('./static/test.png', dpi=200)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test.png'
 
         others = np.setdiff1d(sozo_df['本'].apply(lambda y: y.split(';')[-1]).values,
