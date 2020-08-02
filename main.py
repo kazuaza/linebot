@@ -66,6 +66,10 @@ def handle_text_message(event):
         template_message = TemplateSendMessage(
             alt_text='alt_text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
+    
+    elif text == 'path':
+        path = os.getcwd()
+        line_bot_api.reply_message(event.reply_token, path)
 
     # elif text == '200':
 
