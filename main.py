@@ -89,7 +89,7 @@ def handle_text_message(event):
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
         plt.savefig('./test.png', dpi=300)
         
-        url = 'https://sozo-recommendation.herokuapp.com' + '/test.png'
+        url = 'https://sozo-recommendation.herokuapp.com' + '/test/500'
         line_bot_api.reply_message(event.reply_token, ImageSendMessage(url, url))
 
 
