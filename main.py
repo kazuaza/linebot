@@ -1,5 +1,6 @@
 from flask import Flask, request, abort
 import glob
+import time
 import os
 
 import matplotlib.pyplot as plt
@@ -70,6 +71,7 @@ def handle_text_message(event):
         template_message = TemplateSendMessage(
             alt_text='alt_text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
+        time.sleep(2)
 
     elif text == 'B0':
         empty_list = []
@@ -85,8 +87,8 @@ def handle_text_message(event):
         ax.axis('off')
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
-        plt.title('工房員 利用就活サイト一覧（回答数:{}名）\n'.format(sozo_df.shape[0]))
-        plt.savefig('./static/test.png', dpi=200)
+        plt.title('工房員 利用就活サイト一覧（回答数:{}名）'.format(sozo_df.shape[0]))
+        plt.savefig('./static/test.png', dpi=300)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test.png'
 
         others = np.setdiff1d(sozo_df['サイト'].apply(lambda y: y.split(';')[-1]).values,
@@ -101,6 +103,7 @@ def handle_text_message(event):
 
         line_bot_api.reply_message(event.reply_token,
                                    [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
+        time.sleep(2)
 
     elif text == 'B1':
         empty_list = []
@@ -116,8 +119,8 @@ def handle_text_message(event):
         ax.axis('off')
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns, loc='center', bbox=[0, 0, 1, 1])
-        plt.title('工房員 利用就活本一覧（回答数:{}名）\n'.format(sozo_df.shape[0]))
-        plt.savefig('./static/test.png', dpi=200)
+        plt.title('工房員 利用就活本一覧（回答数:{}名）'.format(sozo_df.shape[0]))
+        plt.savefig('./static/test.png', dpi=300)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test.png'
 
         others = np.setdiff1d(sozo_df['本'].apply(lambda y: y.split(';')[-1]).values,
@@ -132,6 +135,7 @@ def handle_text_message(event):
 
         line_bot_api.reply_message(event.reply_token,
                                    [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
+        time.sleep(2)
 
 
 if __name__ == '__main__':
