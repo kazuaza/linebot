@@ -221,18 +221,7 @@ def handle_text_message(event):
         plt.savefig('./static/test_c0.png', dpi=300)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_c0.png'
 
-        others = np.setdiff1d(sozo_df_dropna['①業界'].apply(lambda y: y.split(';')[-1]).values,
-                              ['メーカー', 'サービス・インフラ', '商社', 'ソフトウェア', '小売',
-                               '広告・出版・マスコミ', '金融', '官公庁・公社・団体', 'その他'])
-        send_text = '＜その他＞\n'
-        for i in range(len(others)):
-            if i == len(others)-1:
-                send_text += '・{}'.format(others[i])
-            else:
-                send_text += '・{}\n'.format(others[i])
-
-        line_bot_api.reply_message(event.reply_token,
-                                   [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
+        line_bot_api.reply_message(event.reply_token, ImageSendMessage(url, url))
 
     elif text == 'C1':
         sozo_df_dropna = sozo_df.dropna(subset=['時期'])
@@ -254,17 +243,7 @@ def handle_text_message(event):
         plt.savefig('./static/test_c1.png', dpi=300)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_c1.png'
 
-        others = np.setdiff1d(sozo_df_dropna['時期'].apply(lambda y: y.split(';')[-1]).values,
-                              ['３年夏より前', '３年夏', '３年秋', '３年冬', '４年春', '４年夏'])
-        send_text = '＜その他＞\n'
-        for i in range(len(others)):
-            if i == len(others)-1:
-                send_text += '・{}'.format(others[i])
-            else:
-                send_text += '・{}\n'.format(others[i])
-
-        line_bot_api.reply_message(event.reply_token,
-                                   [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
+        line_bot_api.reply_message(event.reply_token, ImageSendMessage(url, url))
 
     elif text == 'C2':
         sozo_df_dropna = sozo_df.dropna(subset=['期間'])
@@ -287,9 +266,50 @@ def handle_text_message(event):
         plt.savefig('./static/test_c2.png', dpi=300)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_c2.png'
 
-        others = np.setdiff1d(sozo_df_dropna['期間'].apply(lambda y: y.split(';')[-1]).values,
-                              ['半日または1day', '2days', '3days〜1週間', '8日間以上2週間以内',
-                               '15日間以上3週間以内', '3週間より長い'])
+        line_bot_api.reply_message(event.reply_token, ImageSendMessage(url, url))
+
+    elif text == 'D0':
+        empty_list = []
+        for people in ['１〜５人', '６〜１０人', '１１人〜１５人', '１５人以上']:
+            empty_list.append([people, sozo_df['人数'].apply(lambda y: people in y).mean().round(3) * 100])
+
+        df = pd.DataFrame(empty_list, columns=['＜人数＞', '＜割合＞']).sort_values(by='＜割合＞', ascending=False)
+        df['＜割合＞'] = df['＜割合＞'].astype(str).apply(lambda y: y[:4] + '%')
+        df.index = np.arange(1, df.shape[0] + 1, 1)
+
+        fig, ax = plt.subplots(figsize=(5, 2))
+        ax.axis('off')
+        ax.axis('tight')
+        ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
+                 loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
+        plt.title('工房員 OB・OG訪問人数一覧（回答数:{}名）'.format(sozo_df.shape[0]))
+        plt.savefig('./static/test_d0.png', dpi=300)
+        url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_d0.png'
+
+        line_bot_api.reply_message(event.reply_token, ImageSendMessage(url, url))
+
+    elif text == 'D1':
+        empty_list = []
+        for tool in ['もともとの知り合い、または知り合いを経由', '大学のOB・OG訪問システム', 'ビズリーチ・キャンパス',
+                     'Matcher', 'レクミー']:
+            empty_list.append([tool, sozo_df['使用ツール（複数回答可）'].apply(lambda y: tool in y).mean().round(3) * 100])
+
+        df = pd.DataFrame(empty_list, columns=['＜使用ツール＞', '＜割合＞']).sort_values(by='＜割合＞', ascending=False)
+        df['＜割合＞'] = df['＜割合＞'].astype(str).apply(lambda y: y[:4] + '%')
+        df.index = np.arange(1, df.shape[0] + 1, 1)
+
+        fig, ax = plt.subplots(figsize=(5, 3))
+        ax.axis('off')
+        ax.axis('tight')
+        ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
+                 loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
+        plt.title('工房員 OB・OG訪問使用ツール一覧（回答数:{}名）'.format(sozo_df.shape[0]))
+        plt.savefig('./static/test_d1.png', dpi=300)
+        url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_d1.png'
+
+        others = np.setdiff1d(sozo_df['使用ツール（複数回答可）'].apply(lambda y: y.split(';')[-1]).values,
+                              ['もともとの知り合い、または知り合いを経由', '大学のOB・OG訪問システム', 'ビズリーチ・キャンパス',
+                               'Matcher', 'レクミー'])
         send_text = '＜その他＞\n'
         for i in range(len(others)):
             if i == len(others)-1:
@@ -299,6 +319,9 @@ def handle_text_message(event):
 
         line_bot_api.reply_message(event.reply_token,
                                    [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
+
+    else:
+        pass
 
 
 if __name__ == '__main__':
