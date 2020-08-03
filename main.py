@@ -227,7 +227,7 @@ def handle_text_message(event):
         plt.savefig('./static/test_c0.png', dpi=300)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_c0.png'
 
-        others = np.setdiff1d(sozo_df_dropna['業界'].apply(lambda y: y.split(';')[-1]).values,
+        others = np.setdiff1d(sozo_df_dropna['①業界'].apply(lambda y: y.split(';')[-1]).values,
                               ['メーカー', 'サービス・インフラ', '商社', 'ソフトウェア', '小売',
                                '広告・出版・マスコミ', '金融', '官公庁・公社・団体', 'その他'])
         send_text = '＜その他＞\n'
