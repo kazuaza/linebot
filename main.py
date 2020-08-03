@@ -110,6 +110,8 @@ def handle_text_message(event):
                            text='（下記ボタンを押すとその業界を志望した工房員コードが送信されます）',
                            actions=[
                                MessageAction(label='スポーツ・玩具・ゲーム', text=basic_text + str(empty_list[9]))
+                               MessageAction(label='その他', text='test'),
+                               MessageAction(label='', text='')
                            ])
         ])
         template_message = TemplateSendMessage(
