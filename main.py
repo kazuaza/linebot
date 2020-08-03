@@ -84,33 +84,46 @@ def handle_text_message(event):
             empty_list.append(code_name)
         basic_text = '当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
 
+        others = np.setdiff1d(sozo_df_permit['メーカー'].apply(lambda y: y.split(';')[-1]).values,
+                              maker_list + ['該当なし'])
+        if not bool(others.tolist()):
+            string = '現在該当者は存在しません'
+        else:
+            string = '＜その他＞\n'
+            for other in others:
+                other_index = sozo_df_permit['メーカー'].apply(lambda y: other in y.split(';'))
+                other_code = sozo_df_permit[other_index]['お名前'].values.tolist()
+                add_string = '・' + other + ' → ' + str(other_code) + '\n'
+                string += add_string
+            string = string.rstrip('\n')
+
         carousel_template = CarouselTemplate(columns=[
-            CarouselColumn(title='＜業界＞：メーカー',
-                           text='（下記ボタンを押すとその業界を志望した工房員コードが送信されます）',
+            CarouselColumn(title='＜業界＞メーカー',
+                           text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
                            actions=[
                                MessageAction(label='食品・農林・水産', text=basic_text+str(empty_list[0])),
                                MessageAction(label='建設・住宅・インテリア', text=basic_text+str(empty_list[1])),
                                MessageAction(label='繊維・化学・薬品・化粧品', text=basic_text+str(empty_list[2]))
                            ]),
             CarouselColumn(title='＜業界＞メーカー',
-                           text='（下記ボタンを押すとその業界を志望した工房員コードが送信されます）',
+                           text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
                            actions=[
                                MessageAction(label='鉄鋼・金属・鉱業', text=basic_text+str(empty_list[3])),
                                MessageAction(label='機械・プラント', text=basic_text+str(empty_list[4])),
                                MessageAction(label='電子・電気機器', text=basic_text+str(empty_list[5]))
                            ]),
             CarouselColumn(title='＜業界＞メーカー',
-                           text='（下記ボタンを押すとその業界を志望した工房員コードが送信されます）',
+                           text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
                            actions=[
                                MessageAction(label='自動車・輸送用機器', text=basic_text + str(empty_list[6])),
                                MessageAction(label='精密・医療用機器', text=basic_text + str(empty_list[7])),
                                MessageAction(label='印刷・事務機器関連', text=basic_text + str(empty_list[8]))
                            ]),
             CarouselColumn(title='＜業界＞メーカー',
-                           text='（下記ボタンを押すとその業界を志望した工房員コードが送信されます）',
+                           text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
                            actions=[
                                MessageAction(label='スポーツ・玩具・ゲーム', text=basic_text + str(empty_list[9])),
-                               MessageAction(label='その他', text='test'),
+                               MessageAction(label='その他', text=string),
                                MessageAction(label='---', text='他のボタンを押してください')
                            ])
         ])
@@ -129,33 +142,46 @@ def handle_text_message(event):
             empty_list.append(code_name)
         basic_text = '当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
 
+        others = np.setdiff1d(sozo_df_permit['サービス・インフラ'].apply(lambda y: y.split(';')[-1]).values,
+                              service_list + ['該当なし'])
+        if not bool(others.tolist()):
+            string = '現在該当者は存在しません'
+        else:
+            string = '＜その他＞\n'
+            for other in others:
+                other_index = sozo_df_permit['サービス・インフラ'].apply(lambda y: other in y.split(';'))
+                other_code = sozo_df_permit[other_index]['お名前'].values.tolist()
+                add_string = '・' + other + ' → ' + str(other_code) + '\n'
+                string += add_string
+            string = string.rstrip('\n')
+
         carousel_template = CarouselTemplate(columns=[
-            CarouselColumn(title='＜業界＞：サービス・インフラ',
-                           text='（下記ボタンを押すとその業界を志望した工房員コードが送信されます）',
+            CarouselColumn(title='＜業界＞サービス・インフラ',
+                           text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
                            actions=[
                                MessageAction(label='不動産', text=basic_text+str(empty_list[0])),
                                MessageAction(label='鉄道・航空・運輸・物流', text=basic_text+str(empty_list[1])),
                                MessageAction(label='電力・ガス・エネルギー', text=basic_text+str(empty_list[2]))
                            ]),
             CarouselColumn(title='＜業界＞サービス・インフラ',
-                           text='（下記ボタンを押すとその業界を志望した工房員コードが送信されます）',
+                           text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
                            actions=[
                                MessageAction(label='フードサービス', text=basic_text+str(empty_list[3])),
                                MessageAction(label='ホテル・旅行', text=basic_text+str(empty_list[4])),
                                MessageAction(label='医療・福祉', text=basic_text+str(empty_list[5]))
                            ]),
             CarouselColumn(title='＜業界＞サービス・インフラ',
-                           text='（下記ボタンを押すとその業界を志望した工房員コードが送信されます）',
+                           text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
                            actions=[
-                               MessageAction(label='アミューズメント・レジャー', text=basic_text + str(empty_list[6])),
+                               MessageAction(label='アミューズメント', text=basic_text + str(empty_list[6])),
                                MessageAction(label='コンサルティング・調査', text=basic_text + str(empty_list[7])),
                                MessageAction(label='人材サービス', text=basic_text + str(empty_list[8]))
                            ]),
             CarouselColumn(title='＜業界＞サービス・インフラ',
-                           text='（下記ボタンを押すとその業界を志望した工房員コードが送信されます）',
+                           text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
                            actions=[
                                MessageAction(label='教育', text=basic_text + str(empty_list[9])),
-                               MessageAction(label='その他', text='test'),
+                               MessageAction(label='その他', text=string),
                                MessageAction(label='---', text='他のボタンを押してください')
                            ])
         ])
@@ -172,13 +198,110 @@ def handle_text_message(event):
             empty_list.append(code_name)
         basic_text = '当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
 
+        others = np.setdiff1d(sozo_df_permit['商 社'].apply(lambda y: y.split(';')[-1]).values,
+                              syosya_list + ['該当なし'])
+        if not bool(others.tolist()):
+            string = '現在該当者は存在しません'
+        else:
+            string = '＜その他＞\n'
+            for other in others:
+                other_index = sozo_df_permit['商 社'].apply(lambda y: other in y.split(';'))
+                other_code = sozo_df_permit[other_index]['お名前'].values.tolist()
+                add_string = '・' + other + ' → ' + str(other_code) + '\n'
+                string += add_string
+            string = string.rstrip('\n')
+
         carousel_template = CarouselTemplate(columns=[
-            CarouselColumn(title='＜業界＞：商社',
-                           text='（下記ボタンを押すとその業界を志望した工房員コードが送信されます）',
+            CarouselColumn(title='＜業界＞商社',
+                           text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
                            actions=[
                                MessageAction(label='総合商社', text=basic_text+str(empty_list[0])),
                                MessageAction(label='専門商社', text=basic_text+str(empty_list[1])),
-                               MessageAction(label='その他', text='test')
+                               MessageAction(label='その他', text=string)
+                           ])
+        ])
+        template_message = TemplateSendMessage(
+            alt_text='alt_text', template=carousel_template)
+        line_bot_api.reply_message(event.reply_token, template_message)
+
+    elif text == 'A3':
+        empty_list = []
+        software_list = ['ソフトウェア', 'インターネット', '通信']
+        for software in software_list:
+            true_index = sozo_df_permit['ソフトウェア'].apply(lambda y: software in y.split(';'))
+            code_name = sozo_df_permit[true_index]['お名前'].values.tolist()
+            empty_list.append(code_name)
+        basic_text = '当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
+
+        others = np.setdiff1d(sozo_df_permit['ソフトウェア'].apply(lambda y: y.split(';')[-1]).values,
+                              software_list + ['該当なし'])
+        if not bool(others.tolist()):
+            string = '現在該当者は存在しません'
+        else:
+            string = '＜その他＞\n'
+            for other in others:
+                other_index = sozo_df_permit['ソフトウェア'].apply(lambda y: other in y.split(';'))
+                other_code = sozo_df_permit[other_index]['お名前'].values.tolist()
+                add_string = '・' + other + ' → ' + str(other_code) + '\n'
+                string += add_string
+            string = string.rstrip('\n')
+
+        carousel_template = CarouselTemplate(columns=[
+            CarouselColumn(title='＜業界＞ソフトウェア',
+                           text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
+                           actions=[
+                               MessageAction(label='ソフトウェア', text=basic_text+str(empty_list[0])),
+                               MessageAction(label='インターネット', text=basic_text+str(empty_list[1])),
+                               MessageAction(label='通信', text=basic_text+str(empty_list[2]))
+                           ]),
+            CarouselColumn(title='＜業界＞ソフトウェア',
+                           text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
+                           actions=[
+                               MessageAction(label='その他', text=string),
+                               MessageAction(label='---', text='他のボタンを押してください'),
+                               MessageAction(label='---', text='他のボタンを押してください')
+                           ])
+        ])
+        template_message = TemplateSendMessage(
+            alt_text='alt_text', template=carousel_template)
+        line_bot_api.reply_message(event.reply_token, template_message)
+
+    elif text == 'A4':
+        empty_list = []
+        retail_list = ['百貨店', 'スーパー', 'コンビニ', '専門店']
+        for retail in retail_list:
+            true_index = sozo_df_permit['小売'].apply(lambda y: retail in y.split(';'))
+            code_name = sozo_df_permit[true_index]['お名前'].values.tolist()
+            empty_list.append(code_name)
+        basic_text = '当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
+
+        others = np.setdiff1d(sozo_df_permit['小売'].apply(lambda y: y.split(';')[-1]).values,
+                              retail_list + ['該当なし'])
+        if not bool(others.tolist()):
+            string = '現在該当者は存在しません'
+        else:
+            string = '＜その他＞\n'
+            for other in others:
+                other_index = sozo_df_permit['小売'].apply(lambda y: other in y.split(';'))
+                other_code = sozo_df_permit[other_index]['お名前'].values.tolist()
+                add_string = '・' + other + ' → ' + str(other_code) + '\n'
+                string += add_string
+            string = string.rstrip('\n')
+
+        carousel_template = CarouselTemplate(columns=[
+            CarouselColumn(title='＜業界＞小売',
+                           text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
+                           actions=[
+                               MessageAction(label='百貨店', text=basic_text+str(empty_list[0])),
+                               MessageAction(label='スーパー', text=basic_text+str(empty_list[1])),
+                               MessageAction(label='コンビニ', text=basic_text+str(empty_list[2]))
+                           ]),
+            CarouselColumn(title='＜業界＞小売',
+                           text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
+                           actions=[
+                               MessageAction(label='専門店', text=basic_text + str(empty_list[3])),
+                               MessageAction(label='その他', text=string),
+                               MessageAction(label='---', text='他のボタンを押してください')
                            ])
         ])
         template_message = TemplateSendMessage(
