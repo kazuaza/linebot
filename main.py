@@ -73,14 +73,6 @@ def handle_text_message(event):
             alt_text='alt_text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
 
-    # elif text == 'A0':
-    #     maker_list = ['食品・農林・水産', '建設・住宅・インテリア', '繊維・化学・薬品・化粧品', '鉄鋼・金属・鉱業',
-    #                   '機械・プラント', '電子・電気機器', '自動車・輸送用機器', '精密・医療用機器',
-    #                   '印刷・事務機器関連', 'スポーツ・玩具・ゲーム']
-    #     for num, maker in zip(range(len(maker_list)), maker_list):
-    #         true_index = sozo_df_permit['メーカー'].apply(lambda y: maker in y.split(';'))
-    #         exec("a0_{} = str(sozo_df_permit[true_index]['お名前'].values.tolist())".format(num))
-    #         exec("a0_{0} = '当該業界については以下の工房員に連絡してください（コード化済）→' + a0_{0}".format(num))
     #
     #     carousel_template = CarouselTemplate(columns=[
     #         CarouselColumn(text='業界：メーカー（詳細）',
@@ -102,7 +94,15 @@ def handle_text_message(event):
     #         alt_text='alt_text', template=carousel_template)
     #     line_bot_api.reply_message(event.reply_token, template_message)
 
-    elif text == 'carousel':
+    elif text == 'A0':
+        maker_list = ['食品・農林・水産', '建設・住宅・インテリア', '繊維・化学・薬品・化粧品', '鉄鋼・金属・鉱業',
+                      '機械・プラント', '電子・電気機器', '自動車・輸送用機器', '精密・医療用機器',
+                      '印刷・事務機器関連', 'スポーツ・玩具・ゲーム']
+        for num, maker in zip(range(len(maker_list)), maker_list):
+            true_index = sozo_df_permit['メーカー'].apply(lambda y: maker in y.split(';'))
+            exec("a0_{} = str(sozo_df_permit[true_index]['お名前'].values.tolist())".format(num))
+            exec("a0_{0} = '当該業界については以下の工房員に連絡してください（コード化済）→' + a0_{0}".format(num))
+            
         carousel_template = CarouselTemplate(columns=[
             CarouselColumn(text='hoge1', title='fuga1', actions=[
                 URIAction(label='Go to line.me', uri='https://line.me'),
