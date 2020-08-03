@@ -1,6 +1,5 @@
 from flask import Flask, request, abort
 import glob
-import time
 import os
 
 import matplotlib.pyplot as plt
@@ -71,7 +70,6 @@ def handle_text_message(event):
         template_message = TemplateSendMessage(
             alt_text='alt_text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
-        time.sleep(2)
 
     elif text == 'B0':
         empty_list = []
@@ -104,7 +102,6 @@ def handle_text_message(event):
 
         line_bot_api.reply_message(event.reply_token,
                                    [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
-        time.sleep(2)
 
     elif text == 'B1':
         empty_list = []
@@ -137,7 +134,6 @@ def handle_text_message(event):
 
         line_bot_api.reply_message(event.reply_token,
                                    [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
-        time.sleep(2)
 
     elif text == 'B2':
         empty_list = []
@@ -170,7 +166,6 @@ def handle_text_message(event):
 
         line_bot_api.reply_message(event.reply_token,
                                    [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
-        time.sleep(2)
 
     elif text == 'B3':
         empty_list = []
@@ -204,7 +199,6 @@ def handle_text_message(event):
 
         line_bot_api.reply_message(event.reply_token,
                                    [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
-        time.sleep(2)
 
     elif text == 'C0':
         sozo_df_dropna = sozo_df.dropna(subset=['①業界'])
@@ -239,7 +233,72 @@ def handle_text_message(event):
 
         line_bot_api.reply_message(event.reply_token,
                                    [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
-        time.sleep(2)
+
+    elif text == 'C1':
+        sozo_df_dropna = sozo_df.dropna(subset=['時期'])
+        empty_list = []
+        for time in ['３年夏より前', '３年夏', '３年秋', '３年冬', '４年春', '４年夏']:
+            empty_list.append([time, sozo_df_dropna['時期'].apply(lambda y: time in y).mean().round(3) * 100])
+
+        df = pd.DataFrame(empty_list,
+                          columns=['＜時期＞', '＜割合＞']).sort_values(by='＜割合＞', ascending=False)
+        df['＜割合＞'] = df['＜割合＞'].astype(str).apply(lambda y: y[:4] + '%')
+        df.index = np.arange(1, df.shape[0] + 1, 1)
+
+        fig, ax = plt.subplots(figsize=(4, 2.5))
+        ax.axis('off')
+        ax.axis('tight')
+        ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
+                 loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
+        plt.title('工房員 インターン時期一覧（回答数:{}名）'.format(sozo_df_dropna.shape[0]))
+        plt.savefig('./static/test_c1.png', dpi=300)
+        url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_c1.png'
+
+        others = np.setdiff1d(sozo_df_dropna['時期'].apply(lambda y: y.split(';')[-1]).values,
+                              ['３年夏より前', '３年夏', '３年秋', '３年冬', '４年春', '４年夏'])
+        send_text = '＜その他＞\n'
+        for i in range(len(others)):
+            if i == len(others)-1:
+                send_text += '・{}'.format(others[i])
+            else:
+                send_text += '・{}\n'.format(others[i])
+
+        line_bot_api.reply_message(event.reply_token,
+                                   [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
+
+    elif text == 'C2':
+        sozo_df_dropna = sozo_df.dropna(subset=['期間'])
+        empty_list = []
+        for period in ['半日または1day', '2days', '3days〜1週間', '8日間以上2週間以内',
+                       '15日間以上3週間以内', '3週間より長い']:
+            empty_list.append([period, sozo_df_dropna['期間'].apply(lambda y: period in y).mean().round(3) * 100])
+
+        df = pd.DataFrame(empty_list,
+                          columns=['＜期間＞', '＜割合＞']).sort_values(by='＜割合＞', ascending=False)
+        df['＜割合＞'] = df['＜割合＞'].astype(str).apply(lambda y: y[:4] + '%')
+        df.index = np.arange(1, df.shape[0] + 1, 1)
+
+        fig, ax = plt.subplots(figsize=(5, 2.5))
+        ax.axis('off')
+        ax.axis('tight')
+        ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
+                 loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
+        plt.title('工房員 インターン期間一覧（回答数:{}名）'.format(sozo_df_dropna.shape[0]))
+        plt.savefig('./static/test_c2.png', dpi=300)
+        url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_c2.png'
+
+        others = np.setdiff1d(sozo_df_dropna['期間'].apply(lambda y: y.split(';')[-1]).values,
+                              ['半日または1day', '2days', '3days〜1週間', '8日間以上2週間以内',
+                               '15日間以上3週間以内', '3週間より長い'])
+        send_text = '＜その他＞\n'
+        for i in range(len(others)):
+            if i == len(others)-1:
+                send_text += '・{}'.format(others[i])
+            else:
+                send_text += '・{}\n'.format(others[i])
+
+        line_bot_api.reply_message(event.reply_token,
+                                   [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
 
 
 if __name__ == '__main__':
