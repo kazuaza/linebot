@@ -178,7 +178,8 @@ def handle_text_message(event):
                       '就職エージェントneo', 'ジョブコミット', '利用していない']:
             empty_list.append([event, sozo_df['イベント・セミナー'].apply(lambda y: event in y).mean().round(3) * 100])
 
-        df = pd.DataFrame(empty_list, columns=['＜イベント・セミナー名＞', '＜割合＞']).sort_values(by='＜割合＞', ascending=False)
+        df = pd.DataFrame(empty_list,
+                          columns=['＜イベント・セミナー名＞', '＜割合＞']).sort_values(by='＜割合＞', ascending=False)
         df['＜割合＞'] = df['＜割合＞'].astype(str).apply(lambda y: y[:4] + '%')
         df.index = np.arange(1, df.shape[0] + 1, 1)
 
@@ -187,7 +188,7 @@ def handle_text_message(event):
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
-        plt.title('工房員 利用イベント・セミナー一覧（回答数:{}名）'.format(sozo_df.shape[0]))
+        plt.title('工房員 利用エージェント一覧（回答数:{}名）'.format(sozo_df.shape[0]))
         plt.savefig('./static/test_b3.png', dpi=300)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_b3.png'
 
@@ -196,7 +197,7 @@ def handle_text_message(event):
                                '就職エージェントneo', 'ジョブコミット', '利用していない'])
         send_text = '＜その他＞\n'
         for i in range(len(others)):
-            if i == len(others) - 1:
+            if i == len(others)-1:
                 send_text += '・{}'.format(others[i])
             else:
                 send_text += '・{}\n'.format(others[i])
@@ -205,8 +206,39 @@ def handle_text_message(event):
                                    [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
         time.sleep(2)
 
-    else:
-        pass
+    elif text == 'C0':
+        empty_list = []
+        for gyokai in ['メーカー', 'サービス・インフラ', '商社', 'ソフトウェア', '小売',
+                       '広告・出版・マスコミ', '金融', '官公庁・公社・団体', 'その他']:
+            empty_list.append([gyokai, sozo_df['業界'].apply(lambda y: gyokai in y).mean().round(3) * 100])
+
+        df = pd.DataFrame(empty_list,
+                          columns=['＜業界名＞', '＜割合＞']).sort_values(by='＜割合＞', ascending=False)
+        df['＜割合＞'] = df['＜割合＞'].astype(str).apply(lambda y: y[:4] + '%')
+        df.index = np.arange(1, df.shape[0] + 1, 1)
+
+        fig, ax = plt.subplots(figsize=(5, 4))
+        ax.axis('off')
+        ax.axis('tight')
+        ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
+                 loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
+        plt.title('工房員 インターン業界一覧（回答数:{}名）'.format(sozo_df.shape[0]))
+        plt.savefig('./static/test_c0.png', dpi=300)
+        url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_c0.png'
+
+        others = np.setdiff1d(sozo_df['業界'].apply(lambda y: y.split(';')[-1]).values,
+                              ['メーカー', 'サービス・インフラ', '商社', 'ソフトウェア', '小売',
+                               '広告・出版・マスコミ', '金融', '官公庁・公社・団体', 'その他'])
+        send_text = '＜その他＞\n'
+        for i in range(len(others)):
+            if i == len(others)-1:
+                send_text += '・{}'.format(others[i])
+            else:
+                send_text += '・{}\n'.format(others[i])
+
+        line_bot_api.reply_message(event.reply_token,
+                                   [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
+        time.sleep(2)
 
 
 if __name__ == '__main__':
