@@ -719,6 +719,7 @@ def handle_text_message(event):
 
     elif text == 'version':
         about_version = 'Version 1.0.0\n' + '(Last Update: 2020-08-03)\n\n' + 'Developer: Kazuki Nishio'
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=about_version))
 
     else:
         pass
