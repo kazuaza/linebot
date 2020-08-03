@@ -71,6 +71,7 @@ def handle_text_message(event):
         template_message = TemplateSendMessage(
             alt_text='alt_text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
+        time.sleep(2)
 
     elif text == 'B0':
         empty_list = []
@@ -78,8 +79,8 @@ def handle_text_message(event):
                      'みんなの就職活動', '外資就活ドットコム', 'キャリタス就活', 'クリ博ナビ', '利用していない']:
             empty_list.append([site, sozo_df['サイト'].apply(lambda y: site in y).mean().round(3) * 100])
 
-        df = pd.DataFrame(empty_list, columns=['＜サイト名＞', '＜割合＞']).sort_values(by='割合', ascending=False)
-        df['割合'] = df['割合'].astype(str).apply(lambda y: y[:4] + '%')
+        df = pd.DataFrame(empty_list, columns=['＜サイト名＞', '＜割合＞']).sort_values(by='＜割合＞', ascending=False)
+        df['＜割合＞'] = df['＜割合＞'].astype(str).apply(lambda y: y[:4] + '%')
         df.index = np.arange(1, df.shape[0] + 1, 1)
 
         fig, ax = plt.subplots(figsize=(5, 5))
@@ -88,7 +89,7 @@ def handle_text_message(event):
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
         plt.title('工房員 利用就活サイト一覧（回答数:{}名）'.format(sozo_df.shape[0]))
-        plt.savefig('./static/test_b0.png', dpi=200)
+        plt.savefig('./static/test_b0.png', dpi=300)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_b0.png'
 
         others = np.setdiff1d(sozo_df['サイト'].apply(lambda y: y.split(';')[-1]).values,
@@ -111,8 +112,8 @@ def handle_text_message(event):
                      '史上最強SPI&テストセンター', '利用していない']:
             empty_list.append([book, sozo_df['本'].apply(lambda y: book in y).mean().round(3) * 100])
 
-        df = pd.DataFrame(empty_list, columns=['＜書籍名＞', '＜割合＞']).sort_values(by='割合', ascending=False)
-        df['割合'] = df['割合'].astype(str).apply(lambda y: y[:4] + '%')
+        df = pd.DataFrame(empty_list, columns=['＜書籍名＞', '＜割合＞']).sort_values(by='＜割合＞', ascending=False)
+        df['＜割合＞'] = df['＜割合＞'].astype(str).apply(lambda y: y[:4] + '%')
         df.index = np.arange(1, df.shape[0] + 1, 1)
 
         fig, ax = plt.subplots(figsize=(5, 2.5))
@@ -121,7 +122,7 @@ def handle_text_message(event):
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
         plt.title('工房員 利用就活本一覧（回答数:{}名）'.format(sozo_df.shape[0]))
-        plt.savefig('./static/test_b1.png', dpi=200)
+        plt.savefig('./static/test_b1.png', dpi=300)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_b1.png'
 
         others = np.setdiff1d(sozo_df['本'].apply(lambda y: y.split(';')[-1]).values,
@@ -144,8 +145,8 @@ def handle_text_message(event):
                       'キャリアチケット', '利用していない']:
             empty_list.append([agent, sozo_df['エージェント'].apply(lambda y: agent in y).mean().round(3) * 100])
 
-        df = pd.DataFrame(empty_list, columns=['＜エージェント名＞', '＜割合＞']).sort_values(by='割合', ascending=False)
-        df['割合'] = df['割合'].astype(str).apply(lambda y: y[:4] + '%')
+        df = pd.DataFrame(empty_list, columns=['＜エージェント名＞', '＜割合＞']).sort_values(by='＜割合＞', ascending=False)
+        df['＜割合＞'] = df['＜割合＞'].astype(str).apply(lambda y: y[:4] + '%')
         df.index = np.arange(1, df.shape[0] + 1, 1)
 
         fig, ax = plt.subplots(figsize=(5, 2.5))
@@ -154,7 +155,7 @@ def handle_text_message(event):
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
         plt.title('工房員 利用エージェント一覧（回答数:{}名）'.format(sozo_df.shape[0]))
-        plt.savefig('./static/test_b2.png', dpi=200)
+        plt.savefig('./static/test_b2.png', dpi=300)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_b2.png'
 
         others = np.setdiff1d(sozo_df['エージェント'].apply(lambda y: y.split(';')[-1]).values,
@@ -170,8 +171,43 @@ def handle_text_message(event):
         line_bot_api.reply_message(event.reply_token,
                                    [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
         time.sleep(2)
-        
-        
+
+    elif text == 'B3':
+        empty_list = []
+        for event in ['学内イベント', 'マイナビ就職EXPO', 'リクナビイベント', 'MeetsCompany', 'キャリアチケットラボ',
+                      '就職エージェントneo', 'ジョブコミット', '利用していない']:
+            empty_list.append([event, sozo_df['イベント・セミナー'].apply(lambda y: event in y).mean().round(3) * 100])
+
+        df = pd.DataFrame(empty_list, columns=['＜イベント・セミナー名＞', '＜割合＞']).sort_values(by='＜割合＞', ascending=False)
+        df['＜割合＞'] = df['＜割合＞'].astype(str).apply(lambda y: y[:4] + '%')
+        df.index = np.arange(1, df.shape[0] + 1, 1)
+
+        fig, ax = plt.subplots(figsize=(5, 3.5))
+        ax.axis('off')
+        ax.axis('tight')
+        ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
+                 loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
+        plt.title('工房員 利用イベント・セミナー一覧（回答数:{}名）'.format(sozo_df.shape[0]))
+        plt.savefig('./static/test_b3.png', dpi=300)
+        url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_b3.png'
+
+        others = np.setdiff1d(sozo_df['イベント・セミナー'].apply(lambda y: y.split(';')[-1]).values,
+                              ['学内イベント', 'マイナビ就職EXPO', 'リクナビイベント', 'MeetsCompany', 'キャリアチケットラボ',
+                               '就職エージェントneo', 'ジョブコミット', '利用していない'])
+        send_text = '＜その他＞\n'
+        for i in range(len(others)):
+            if i == len(others) - 1:
+                send_text += '・{}'.format(others[i])
+            else:
+                send_text += '・{}\n'.format(others[i])
+
+        line_bot_api.reply_message(event.reply_token,
+                                   [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
+        time.sleep(2)
+
+    else:
+        pass
+
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT'))
