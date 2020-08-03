@@ -118,6 +118,73 @@ def handle_text_message(event):
             alt_text='alt_text', template=carousel_template)
         line_bot_api.reply_message(event.reply_token, template_message)
 
+    elif text == 'A1':
+        empty_list = []
+        service_list = ['不動産', '鉄道・航空・運輸・物流', '電力・ガス・エネルギー', 'フードサービス',
+                        'ホテル・旅行', '医療・福祉', 'アミューズメント・レジャー', 'コンサルティング・調査',
+                        '人材サービス', '教育']
+        for service in service_list:
+            true_index = sozo_df_permit['サービス・インフラ'].apply(lambda y: service in y.split(';'))
+            code_name = sozo_df_permit[true_index]['お名前'].values.tolist()
+            empty_list.append(code_name)
+        basic_text = '当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
+
+        carousel_template = CarouselTemplate(columns=[
+            CarouselColumn(title='＜業界＞：サービス・インフラ',
+                           text='（下記ボタンを押すとその業界を志望した工房員コードが送信されます）',
+                           actions=[
+                               MessageAction(label='不動産', text=basic_text+str(empty_list[0])),
+                               MessageAction(label='鉄道・航空・運輸・物流', text=basic_text+str(empty_list[1])),
+                               MessageAction(label='電力・ガス・エネルギー', text=basic_text+str(empty_list[2]))
+                           ]),
+            CarouselColumn(title='＜業界＞サービス・インフラ',
+                           text='（下記ボタンを押すとその業界を志望した工房員コードが送信されます）',
+                           actions=[
+                               MessageAction(label='フードサービス', text=basic_text+str(empty_list[3])),
+                               MessageAction(label='ホテル・旅行', text=basic_text+str(empty_list[4])),
+                               MessageAction(label='医療・福祉', text=basic_text+str(empty_list[5]))
+                           ]),
+            CarouselColumn(title='＜業界＞サービス・インフラ',
+                           text='（下記ボタンを押すとその業界を志望した工房員コードが送信されます）',
+                           actions=[
+                               MessageAction(label='アミューズメント・レジャー', text=basic_text + str(empty_list[6])),
+                               MessageAction(label='コンサルティング・調査', text=basic_text + str(empty_list[7])),
+                               MessageAction(label='人材サービス', text=basic_text + str(empty_list[8]))
+                           ]),
+            CarouselColumn(title='＜業界＞サービス・インフラ',
+                           text='（下記ボタンを押すとその業界を志望した工房員コードが送信されます）',
+                           actions=[
+                               MessageAction(label='教育', text=basic_text + str(empty_list[9])),
+                               MessageAction(label='その他', text='test'),
+                               MessageAction(label='---', text='他のボタンを押してください')
+                           ])
+        ])
+        template_message = TemplateSendMessage(
+            alt_text='alt_text', template=carousel_template)
+        line_bot_api.reply_message(event.reply_token, template_message)
+
+    elif text == 'A2':
+        empty_list = []
+        syosya_list = ['総合商社', '専門商社']
+        for syosya in syosya_list:
+            true_index = sozo_df_permit['商 社'].apply(lambda y: syosya in y.split(';'))
+            code_name = sozo_df_permit[true_index]['お名前'].values.tolist()
+            empty_list.append(code_name)
+        basic_text = '当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
+
+        carousel_template = CarouselTemplate(columns=[
+            CarouselColumn(title='＜業界＞：商社',
+                           text='（下記ボタンを押すとその業界を志望した工房員コードが送信されます）',
+                           actions=[
+                               MessageAction(label='総合商社', text=basic_text+str(empty_list[0])),
+                               MessageAction(label='専門商社', text=basic_text+str(empty_list[1])),
+                               MessageAction(label='その他', text='test')
+                           ])
+        ])
+        template_message = TemplateSendMessage(
+            alt_text='alt_text', template=carousel_template)
+        line_bot_api.reply_message(event.reply_token, template_message)
+
     elif text == 'B0':
         empty_list = []
         for site in ['マイナビ', 'リクナビ', 'unistyle', 'ONE CAREER', '就活ノート', 'Open Work',
