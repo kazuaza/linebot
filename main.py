@@ -269,9 +269,10 @@ def handle_text_message(event):
         line_bot_api.reply_message(event.reply_token, ImageSendMessage(url, url))
 
     elif text == 'D0':
+        sozo_df_dropna = sozo_df.dropna(subset=['人数'])
         empty_list = []
         for people in ['１〜５人', '６〜１０人', '１１人〜１５人', '１５人以上']:
-            empty_list.append([people, sozo_df['人数'].apply(lambda y: people in y).mean().round(3) * 100])
+            empty_list.append([people, sozo_df_dropna['人数'].apply(lambda y: people in y).mean().round(3) * 100])
 
         df = pd.DataFrame(empty_list, columns=['＜人数＞', '＜割合＞']).sort_values(by='＜割合＞', ascending=False)
         df['＜割合＞'] = df['＜割合＞'].astype(str).apply(lambda y: y[:4] + '%')
@@ -282,17 +283,18 @@ def handle_text_message(event):
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
-        plt.title('工房員 OB・OG訪問人数一覧（回答数:{}名）'.format(sozo_df.shape[0]))
+        plt.title('工房員 OB・OG訪問人数一覧（回答数:{}名）'.format(sozo_df_dropna.shape[0]))
         plt.savefig('./static/test_d0.png', dpi=300)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_d0.png'
 
         line_bot_api.reply_message(event.reply_token, ImageSendMessage(url, url))
 
     elif text == 'D1':
+        sozo_df_dropna = sozo_df.dropna(subset=['人数'])
         empty_list = []
         for tool in ['もともとの知り合い、または知り合いを経由', '大学のOB・OG訪問システム', 'ビズリーチ・キャンパス',
                      'Matcher', 'レクミー']:
-            empty_list.append([tool, sozo_df['使用ツール（複数回答可）'].apply(lambda y: tool in y).mean().round(3) * 100])
+            empty_list.append([tool, sozo_df_dropna['使用ツール（複数回答可）'].apply(lambda y: tool in y).mean().round(3) * 100])
 
         df = pd.DataFrame(empty_list, columns=['＜使用ツール＞', '＜割合＞']).sort_values(by='＜割合＞', ascending=False)
         df['＜割合＞'] = df['＜割合＞'].astype(str).apply(lambda y: y[:4] + '%')
@@ -303,11 +305,11 @@ def handle_text_message(event):
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
-        plt.title('工房員 OB・OG訪問使用ツール一覧（回答数:{}名）'.format(sozo_df.shape[0]))
+        plt.title('工房員 OB・OG訪問使用ツール一覧（回答数:{}名）'.format(sozo_df_dropna.shape[0]))
         plt.savefig('./static/test_d1.png', dpi=300)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_d1.png'
 
-        others = np.setdiff1d(sozo_df['使用ツール（複数回答可）'].apply(lambda y: y.split(';')[-1]).values,
+        others = np.setdiff1d(sozo_df_dropna['使用ツール（複数回答可）'].apply(lambda y: y.split(';')[-1]).values,
                               ['もともとの知り合い、または知り合いを経由', '大学のOB・OG訪問システム', 'ビズリーチ・キャンパス',
                                'Matcher', 'レクミー'])
         send_text = '＜その他＞\n'
