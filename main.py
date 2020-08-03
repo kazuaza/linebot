@@ -26,6 +26,8 @@ from linebot.models import (
     ImageSendMessage)
 
 sozo_df = pd.read_csv('./sozo_answer_anony.csv')
+sozo_df_permit = sozo_df[sozo_df['興味をもった後輩に名前を教えて良いですか？'] == '良い']
+
 app = Flask(__name__)
 
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ['YOUR_CHANNEL_ACCESS_TOKEN']
@@ -71,6 +73,35 @@ def handle_text_message(event):
             alt_text='alt_text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
 
+    elif text == 'A0':
+        maker_list = ['食品・農林・水産', '建設・住宅・インテリア', '繊維・化学・薬品・化粧品', '鉄鋼・金属・鉱業',
+                      '機械・プラント', '電子・電気機器', '自動車・輸送用機器', '精密・医療用機器',
+                      '印刷・事務機器関連', 'スポーツ・玩具・ゲーム']
+        for num, maker in zip(range(len(maker_list)), maker_list):
+            true_index = sozo_df_permit['メーカー'].apply(lambda y: maker in y.split(';'))
+            exec("a0_{} = str(sozo_df_permit[true_index]['お名前'].values.tolist())".format(num))
+            exec("a0_{0} = '当該業界については以下の工房員に連絡してください（コード化済）→' + a0_{0}".format(num))
+
+        carousel_template = CarouselTemplate(columns=[
+            CarouselColumn(text='業界：メーカー（詳細）',
+                           title='（下記ボタンを押すとその業界を志望した工房員のコードが送信されます）',
+                           actions=[
+                               MessageAction(label='食品・農林・水産', text=a0_0),
+                               MessageAction(label='建設・住宅・インテリア', text=a0_1),
+                               MessageAction(label='繊維・化学・薬品・化粧品', text=a0_2)
+                           ]),
+            CarouselColumn(text='業界：メーカー（詳細）',
+                           title='（下記ボタンを押すとその業界を志望した工房員のコードが送信されます）',
+                           actions=[
+                               MessageAction(label='鉄鋼・金属・鉱業', text=a0_3),
+                               MessageAction(label='機械・プラント', text=a0_4),
+                               MessageAction(label='電子・電気機器', text=a0_5)
+                           ])
+        ])
+        template_message = TemplateSendMessage(
+            alt_text='alt_text', template=carousel_template)
+        line_bot_api.reply_message(event.reply_token, template_message)
+
     elif text == 'B0':
         empty_list = []
         for site in ['マイナビ', 'リクナビ', 'unistyle', 'ONE CAREER', '就活ノート', 'Open Work',
@@ -87,7 +118,7 @@ def handle_text_message(event):
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
         plt.title('工房員 利用就活サイト一覧（回答数:{}名）'.format(sozo_df.shape[0]))
-        plt.savefig('./static/test_b0.png', dpi=300)
+        plt.savefig('./static/test_b0.png', dpi=250)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_b0.png'
 
         others = np.setdiff1d(sozo_df['サイト'].apply(lambda y: y.split(';')[-1]).values,
@@ -119,7 +150,7 @@ def handle_text_message(event):
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
         plt.title('工房員 利用就活本一覧（回答数:{}名）'.format(sozo_df.shape[0]))
-        plt.savefig('./static/test_b1.png', dpi=300)
+        plt.savefig('./static/test_b1.png', dpi=250)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_b1.png'
 
         others = np.setdiff1d(sozo_df['本'].apply(lambda y: y.split(';')[-1]).values,
@@ -151,7 +182,7 @@ def handle_text_message(event):
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
         plt.title('工房員 利用エージェント一覧（回答数:{}名）'.format(sozo_df.shape[0]))
-        plt.savefig('./static/test_b2.png', dpi=300)
+        plt.savefig('./static/test_b2.png', dpi=250)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_b2.png'
 
         others = np.setdiff1d(sozo_df['エージェント'].apply(lambda y: y.split(';')[-1]).values,
@@ -184,7 +215,7 @@ def handle_text_message(event):
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
         plt.title('工房員 イベント・セミナー名一覧（回答数:{}名）'.format(sozo_df.shape[0]))
-        plt.savefig('./static/test_b3.png', dpi=300)
+        plt.savefig('./static/test_b3.png', dpi=250)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_b3.png'
 
         others = np.setdiff1d(sozo_df['イベント・セミナー'].apply(lambda y: y.split(';')[-1]).values,
@@ -218,7 +249,7 @@ def handle_text_message(event):
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
         plt.title('工房員 インターン業界一覧（回答数:{}名）'.format(sozo_df_dropna.shape[0]))
-        plt.savefig('./static/test_c0.png', dpi=300)
+        plt.savefig('./static/test_c0.png', dpi=250)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_c0.png'
 
         line_bot_api.reply_message(event.reply_token, ImageSendMessage(url, url))
@@ -240,7 +271,7 @@ def handle_text_message(event):
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
         plt.title('工房員 インターン時期一覧（回答数:{}名）'.format(sozo_df_dropna.shape[0]))
-        plt.savefig('./static/test_c1.png', dpi=300)
+        plt.savefig('./static/test_c1.png', dpi=250)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_c1.png'
 
         line_bot_api.reply_message(event.reply_token, ImageSendMessage(url, url))
@@ -263,7 +294,7 @@ def handle_text_message(event):
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
         plt.title('工房員 インターン期間一覧（回答数:{}名）'.format(sozo_df_dropna.shape[0]))
-        plt.savefig('./static/test_c2.png', dpi=300)
+        plt.savefig('./static/test_c2.png', dpi=250)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_c2.png'
 
         line_bot_api.reply_message(event.reply_token, ImageSendMessage(url, url))
@@ -284,7 +315,7 @@ def handle_text_message(event):
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
         plt.title('工房員 OB・OG訪問人数一覧（回答数:{}名）'.format(sozo_df_dropna.shape[0]))
-        plt.savefig('./static/test_d0.png', dpi=300)
+        plt.savefig('./static/test_d0.png', dpi=250)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_d0.png'
 
         line_bot_api.reply_message(event.reply_token, ImageSendMessage(url, url))
@@ -306,7 +337,7 @@ def handle_text_message(event):
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
         plt.title('工房員 OB・OG訪問使用ツール一覧（回答数:{}名）'.format(sozo_df_dropna.shape[0]))
-        plt.savefig('./static/test_d1.png', dpi=300)
+        plt.savefig('./static/test_d1.png', dpi=250)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_d1.png'
 
         others = np.setdiff1d(sozo_df_dropna['使用ツール（複数回答可）'].apply(lambda y: y.split(';')[-1]).values,
