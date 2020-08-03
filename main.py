@@ -207,10 +207,11 @@ def handle_text_message(event):
         time.sleep(2)
 
     elif text == 'C0':
+        sozo_df_dropna = sozo_df.dropna(subset=['①業界'])
         empty_list = []
         for gyokai in ['メーカー', 'サービス・インフラ', '商社', 'ソフトウェア', '小売',
                        '広告・出版・マスコミ', '金融', '官公庁・公社・団体', 'その他']:
-            empty_list.append([gyokai, sozo_df['業界'].apply(lambda y: gyokai in y).mean().round(3) * 100])
+            empty_list.append([gyokai, sozo_df_dropna['①業界'].apply(lambda y: gyokai in y).mean().round(3) * 100])
 
         df = pd.DataFrame(empty_list,
                           columns=['＜業界名＞', '＜割合＞']).sort_values(by='＜割合＞', ascending=False)
@@ -222,11 +223,11 @@ def handle_text_message(event):
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
-        plt.title('工房員 インターン業界一覧（回答数:{}名）'.format(sozo_df.shape[0]))
+        plt.title('工房員 インターン業界一覧（回答数:{}名）'.format(sozo_df_dropna.shape[0]))
         plt.savefig('./static/test_c0.png', dpi=300)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_c0.png'
 
-        others = np.setdiff1d(sozo_df['業界'].apply(lambda y: y.split(';')[-1]).values,
+        others = np.setdiff1d(sozo_df_dropna['業界'].apply(lambda y: y.split(';')[-1]).values,
                               ['メーカー', 'サービス・インフラ', '商社', 'ソフトウェア', '小売',
                                '広告・出版・マスコミ', '金融', '官公庁・公社・団体', 'その他'])
         send_text = '＜その他＞\n'
