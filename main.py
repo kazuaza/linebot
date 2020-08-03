@@ -82,7 +82,7 @@ def handle_text_message(event):
             true_index = sozo_df_permit['メーカー'].apply(lambda y: maker in y.split(';'))
             code_name = sozo_df_permit[true_index]['お名前'].values.tolist()
             empty_list.append(code_name)
-        basic_text = '\n当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n→ '
+        basic_text = '\n\n当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
 
         others = np.setdiff1d(sozo_df_permit['メーカー'].apply(lambda y: y.split(';')[-1]).values,
                               maker_list + ['該当なし'])
@@ -150,7 +150,7 @@ def handle_text_message(event):
             true_index = sozo_df_permit['サービス・インフラ'].apply(lambda y: service in y.split(';'))
             code_name = sozo_df_permit[true_index]['お名前'].values.tolist()
             empty_list.append(code_name)
-        basic_text = '\n当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n→ '
+        basic_text = '\n\n当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
 
         others = np.setdiff1d(sozo_df_permit['サービス・インフラ'].apply(lambda y: y.split(';')[-1]).values,
                               service_list + ['該当なし'])
@@ -216,7 +216,7 @@ def handle_text_message(event):
             true_index = sozo_df_permit['商 社'].apply(lambda y: syosya in y.split(';'))
             code_name = sozo_df_permit[true_index]['お名前'].values.tolist()
             empty_list.append(code_name)
-        basic_text = '\n当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n→ '
+        basic_text = '\n\n当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
 
         others = np.setdiff1d(sozo_df_permit['商 社'].apply(lambda y: y.split(';')[-1]).values,
                               syosya_list + ['該当なし'])
@@ -253,7 +253,7 @@ def handle_text_message(event):
             true_index = sozo_df_permit['ソフトウェア'].apply(lambda y: software in y.split(';'))
             code_name = sozo_df_permit[true_index]['お名前'].values.tolist()
             empty_list.append(code_name)
-        basic_text = '当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
+        basic_text = '\n\n当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
 
         others = np.setdiff1d(sozo_df_permit['ソフトウェア'].apply(lambda y: y.split(';')[-1]).values,
                               software_list + ['該当なし'])
@@ -272,9 +272,12 @@ def handle_text_message(event):
             CarouselColumn(title='＜業界＞ソフトウェア',
                            text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
                            actions=[
-                               MessageAction(label='ソフトウェア', text=basic_text+str(empty_list[0])),
-                               MessageAction(label='インターネット', text=basic_text+str(empty_list[1])),
-                               MessageAction(label='通信', text=basic_text+str(empty_list[2]))
+                               MessageAction(label='ソフトウェア',
+                                             text='＜ソフトウェア＞'+basic_text+str(empty_list[0])),
+                               MessageAction(label='インターネット',
+                                             text='＜インターネット＞'+basic_text+str(empty_list[1])),
+                               MessageAction(label='通信',
+                                             text='＜通信＞'+basic_text+str(empty_list[2]))
                            ]),
             CarouselColumn(title='＜業界＞ソフトウェア',
                            text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
@@ -295,7 +298,7 @@ def handle_text_message(event):
             true_index = sozo_df_permit['小売'].apply(lambda y: retail in y.split(';'))
             code_name = sozo_df_permit[true_index]['お名前'].values.tolist()
             empty_list.append(code_name)
-        basic_text = '当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
+        basic_text = '\n\n当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
 
         others = np.setdiff1d(sozo_df_permit['小売'].apply(lambda y: y.split(';')[-1]).values,
                               retail_list + ['該当なし'])
@@ -314,14 +317,18 @@ def handle_text_message(event):
             CarouselColumn(title='＜業界＞小売',
                            text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
                            actions=[
-                               MessageAction(label='百貨店', text=basic_text+str(empty_list[0])),
-                               MessageAction(label='スーパー', text=basic_text+str(empty_list[1])),
-                               MessageAction(label='コンビニ', text=basic_text+str(empty_list[2]))
+                               MessageAction(label='百貨店',
+                                             text='＜百貨店＞'+basic_text+str(empty_list[0])),
+                               MessageAction(label='スーパー',
+                                             text='＜スーパー＞'+basic_text+str(empty_list[1])),
+                               MessageAction(label='コンビニ',
+                                             text='＜コンビニ＞'+basic_text+str(empty_list[2]))
                            ]),
             CarouselColumn(title='＜業界＞小売',
                            text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
                            actions=[
-                               MessageAction(label='専門店', text=basic_text + str(empty_list[3])),
+                               MessageAction(label='専門店',
+                                             text='＜専門店＞'+basic_text + str(empty_list[3])),
                                MessageAction(label='その他', text=string),
                                MessageAction(label='---', text='他のボタンを押してください')
                            ])
@@ -337,7 +344,7 @@ def handle_text_message(event):
             true_index = sozo_df_permit['広告・出版・マスコミ	'].apply(lambda y: media in y.split(';'))
             code_name = sozo_df_permit[true_index]['お名前'].values.tolist()
             empty_list.append(code_name)
-        basic_text = '当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
+        basic_text = '\n\n当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
 
         others = np.setdiff1d(sozo_df_permit['広告・出版・マスコミ	'].apply(lambda y: y.split(';')[-1]).values,
                               media_list + ['該当なし'])
@@ -356,14 +363,18 @@ def handle_text_message(event):
             CarouselColumn(title='＜業界＞広告・出版・マスコミ',
                            text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
                            actions=[
-                               MessageAction(label='放送', text=basic_text+str(empty_list[0])),
-                               MessageAction(label='新聞', text=basic_text+str(empty_list[1])),
-                               MessageAction(label='出版', text=basic_text+str(empty_list[2]))
+                               MessageAction(label='放送',
+                                             text='＜放送＞'+basic_text+str(empty_list[0])),
+                               MessageAction(label='新聞',
+                                             text='＜新聞＞'+basic_text+str(empty_list[1])),
+                               MessageAction(label='出版',
+                                             text='＜出版＞'+basic_text+str(empty_list[2]))
                            ]),
             CarouselColumn(title='＜業界＞広告・出版・マスコミ',
                            text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
                            actions=[
-                               MessageAction(label='広告', text=basic_text + str(empty_list[3])),
+                               MessageAction(label='広告',
+                                             text='＜広告＞'+basic_text + str(empty_list[3])),
                                MessageAction(label='その他', text=string),
                                MessageAction(label='---', text='他のボタンを押してください')
                            ])
@@ -379,7 +390,7 @@ def handle_text_message(event):
             true_index = sozo_df_permit['金融'].apply(lambda y: kinyu in y.split(';'))
             code_name = sozo_df_permit[true_index]['お名前'].values.tolist()
             empty_list.append(code_name)
-        basic_text = '当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
+        basic_text = '\n\n当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
 
         others = np.setdiff1d(sozo_df_permit['金融'].apply(lambda y: y.split(';')[-1]).values,
                               kinyu_list + ['該当なし'])
@@ -398,14 +409,18 @@ def handle_text_message(event):
             CarouselColumn(title='＜業界＞金融',
                            text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
                            actions=[
-                               MessageAction(label='銀行・証券', text=basic_text+str(empty_list[0])),
-                               MessageAction(label='クレジット', text=basic_text+str(empty_list[1])),
-                               MessageAction(label='信販・リース', text=basic_text+str(empty_list[2]))
+                               MessageAction(label='銀行・証券',
+                                             text='＜銀行・証券＞'+basic_text+str(empty_list[0])),
+                               MessageAction(label='クレジット',
+                                             text='＜クレジット＞'+basic_text+str(empty_list[1])),
+                               MessageAction(label='信販・リース',
+                                             text='＜信販・リース＞'+basic_text+str(empty_list[2]))
                            ]),
             CarouselColumn(title='＜業界＞金融',
                            text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
                            actions=[
-                               MessageAction(label='生命・損保', text=basic_text + str(empty_list[3])),
+                               MessageAction(label='生命・損保',
+                                             text='＜生命・損保＞'+basic_text + str(empty_list[3])),
                                MessageAction(label='その他', text=string),
                                MessageAction(label='---', text='他のボタンを押してください')
                            ])
@@ -421,7 +436,7 @@ def handle_text_message(event):
             true_index = sozo_df_permit['官公庁・公社・団体'].apply(lambda y: kosha in y.split(';'))
             code_name = sozo_df_permit[true_index]['お名前'].values.tolist()
             empty_list.append(code_name)
-        basic_text = '当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
+        basic_text = '\n\n当該業界については以下の工房員に連絡してください\n（[]の場合、現在該当者無し）\n\n→ '
 
         others = np.setdiff1d(sozo_df_permit['官公庁・公社・団体'].apply(lambda y: y.split(';')[-1]).values,
                               kosha_list + ['該当なし'])
@@ -440,8 +455,10 @@ def handle_text_message(event):
             CarouselColumn(title='＜業界＞官公庁・公社・団体',
                            text='（下記ボタンを押すと業界を志望した工房員コードが送信されます）',
                            actions=[
-                               MessageAction(label='公社・団体', text=basic_text+str(empty_list[0])),
-                               MessageAction(label='官公庁', text=basic_text+str(empty_list[1])),
+                               MessageAction(label='公社・団体',
+                                             text='＜公社・団体＞'+basic_text+str(empty_list[0])),
+                               MessageAction(label='官公庁',
+                                             text='＜官公庁＞'+basic_text+str(empty_list[1])),
                                MessageAction(label='その他', text=string)
                            ])
         ])
@@ -701,7 +718,7 @@ def handle_text_message(event):
                                    [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
 
     elif text == 'version':
-        about_version = ''
+        about_version = 'Version 1.0.0\n' + '(Last Update: 2020-08-03)\n\n' + 'Developer: Kazuki Nishio'
 
     else:
         pass
