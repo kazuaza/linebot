@@ -73,33 +73,48 @@ def handle_text_message(event):
             alt_text='alt_text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
 
-    elif text == 'A0':
-        maker_list = ['食品・農林・水産', '建設・住宅・インテリア', '繊維・化学・薬品・化粧品', '鉄鋼・金属・鉱業',
-                      '機械・プラント', '電子・電気機器', '自動車・輸送用機器', '精密・医療用機器',
-                      '印刷・事務機器関連', 'スポーツ・玩具・ゲーム']
-        for num, maker in zip(range(len(maker_list)), maker_list):
-            true_index = sozo_df_permit['メーカー'].apply(lambda y: maker in y.split(';'))
-            exec("a0_{} = str(sozo_df_permit[true_index]['お名前'].values.tolist())".format(num))
-            exec("a0_{0} = '当該業界については以下の工房員に連絡してください（コード化済）→' + a0_{0}".format(num))
+    # elif text == 'A0':
+    #     maker_list = ['食品・農林・水産', '建設・住宅・インテリア', '繊維・化学・薬品・化粧品', '鉄鋼・金属・鉱業',
+    #                   '機械・プラント', '電子・電気機器', '自動車・輸送用機器', '精密・医療用機器',
+    #                   '印刷・事務機器関連', 'スポーツ・玩具・ゲーム']
+    #     for num, maker in zip(range(len(maker_list)), maker_list):
+    #         true_index = sozo_df_permit['メーカー'].apply(lambda y: maker in y.split(';'))
+    #         exec("a0_{} = str(sozo_df_permit[true_index]['お名前'].values.tolist())".format(num))
+    #         exec("a0_{0} = '当該業界については以下の工房員に連絡してください（コード化済）→' + a0_{0}".format(num))
+    #
+    #     carousel_template = CarouselTemplate(columns=[
+    #         CarouselColumn(text='業界：メーカー（詳細）',
+    #                        title='（下記ボタンを押すとその業界を志望した工房員のコードが送信されます）',
+    #                        actions=[
+    #                            MessageAction(label='食品・農林・水産', text=a0_0),
+    #                            MessageAction(label='建設・住宅・インテリア', text=a0_1),
+    #                            # MessageAction(label='繊維・化学・薬品・化粧品', text=a0_2)
+    #                        ]),
+    #         CarouselColumn(text='業界：メーカー（詳細）',
+    #                        title='（下記ボタンを押すとその業界を志望した工房員のコードが送信されます）',
+    #                        actions=[
+    #                            MessageAction(label='鉄鋼・金属・鉱業', text=a0_3),
+    #                            MessageAction(label='機械・プラント', text=a0_4),
+    #                            # MessageAction(label='電子・電気機器', text=a0_5)
+    #                        ])
+    #     ])
+    #     template_message = TemplateSendMessage(
+    #         alt_text='alt_text', template=carousel_template)
+    #     line_bot_api.reply_message(event.reply_token, template_message)
 
+    elif text == 'carousel':
         carousel_template = CarouselTemplate(columns=[
-            CarouselColumn(text='業界：メーカー（詳細）',
-                           title='（下記ボタンを押すとその業界を志望した工房員のコードが送信されます）',
-                           actions=[
-                               MessageAction(label='食品・農林・水産', text=a0_0),
-                               MessageAction(label='建設・住宅・インテリア', text=a0_1),
-#                                MessageAction(label='繊維・化学・薬品・化粧品', text=a0_2)
-                           ]),
-            CarouselColumn(text='業界：メーカー（詳細）',
-                           title='（下記ボタンを押すとその業界を志望した工房員のコードが送信されます）',
-                           actions=[
-                               MessageAction(label='鉄鋼・金属・鉱業', text=a0_3),
-                               MessageAction(label='機械・プラント', text=a0_4),
-#                                MessageAction(label='電子・電気機器', text=a0_5)
-                           ])
+            CarouselColumn(text='hoge1', title='fuga1', actions=[
+                URIAction(label='Go to line.me', uri='https://line.me'),
+                PostbackAction(label='ping', data='ping')
+            ]),
+            CarouselColumn(text='hoge2', title='fuga2', actions=[
+                PostbackAction(label='ping with text', data='ping', text='ping'),
+                MessageAction(label='Translate Rice', text='米')
+            ]),
         ])
         template_message = TemplateSendMessage(
-            alt_text='alt_text', template=carousel_template)
+            alt_text='Carousel alt text', template=carousel_template)
         line_bot_api.reply_message(event.reply_token, template_message)
 
     elif text == 'B0':
