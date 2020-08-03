@@ -188,7 +188,7 @@ def handle_text_message(event):
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
-        plt.title('工房員 利用エージェント一覧（回答数:{}名）'.format(sozo_df.shape[0]))
+        plt.title('工房員 イベント・セミナー名一覧（回答数:{}名）'.format(sozo_df.shape[0]))
         plt.savefig('./static/test_b3.png', dpi=300)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_b3.png'
 
