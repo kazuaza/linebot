@@ -88,14 +88,14 @@ def handle_text_message(event):
                            actions=[
                                MessageAction(label='食品・農林・水産', text=a0_0),
                                MessageAction(label='建設・住宅・インテリア', text=a0_1),
-                               MessageAction(label='繊維・化学・薬品・化粧品', text=a0_2)
+#                                MessageAction(label='繊維・化学・薬品・化粧品', text=a0_2)
                            ]),
             CarouselColumn(text='業界：メーカー（詳細）',
                            title='（下記ボタンを押すとその業界を志望した工房員のコードが送信されます）',
                            actions=[
                                MessageAction(label='鉄鋼・金属・鉱業', text=a0_3),
                                MessageAction(label='機械・プラント', text=a0_4),
-                               MessageAction(label='電子・電気機器', text=a0_5)
+#                                MessageAction(label='電子・電気機器', text=a0_5)
                            ])
         ])
         template_message = TemplateSendMessage(
