@@ -111,7 +111,7 @@ def handle_text_message(event):
                            actions=[
                                MessageAction(label='スポーツ・玩具・ゲーム', text=basic_text + str(empty_list[9])),
                                MessageAction(label='その他', text='test'),
-                               MessageAction(label='', text='')
+                               MessageAction(label='---', text='他のボタンを押してください')
                            ])
         ])
         template_message = TemplateSendMessage(
