@@ -171,6 +171,7 @@ def handle_text_message(event):
                                    [ImageSendMessage(url, url), TextSendMessage(text=send_text)])
         time.sleep(2)
         
+        
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT'))
