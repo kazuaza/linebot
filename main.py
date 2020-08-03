@@ -88,7 +88,7 @@ def handle_text_message(event):
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
         plt.title('工房員 利用就活サイト一覧（回答数:{}名）'.format(sozo_df.shape[0]))
-        plt.savefig('./static/test_b0.png', dpi=300)
+        plt.savefig('./static/test_b0.png', dpi=200)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_b0.png'
 
         others = np.setdiff1d(sozo_df['サイト'].apply(lambda y: y.split(';')[-1]).values,
@@ -121,7 +121,7 @@ def handle_text_message(event):
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
         plt.title('工房員 利用就活本一覧（回答数:{}名）'.format(sozo_df.shape[0]))
-        plt.savefig('./static/test_b1.png', dpi=300)
+        plt.savefig('./static/test_b1.png', dpi=200)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_b1.png'
 
         others = np.setdiff1d(sozo_df['本'].apply(lambda y: y.split(';')[-1]).values,
@@ -154,7 +154,7 @@ def handle_text_message(event):
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
                  loc='center', bbox=[0, 0, 1, 1], cellLoc='center')
         plt.title('工房員 利用エージェント一覧（回答数:{}名）'.format(sozo_df.shape[0]))
-        plt.savefig('./static/test_b2.png', dpi=300)
+        plt.savefig('./static/test_b2.png', dpi=200)
         url = 'https://sozo-recommendation.herokuapp.com' + '/static/test_b2.png'
 
         others = np.setdiff1d(sozo_df['エージェント'].apply(lambda y: y.split(';')[-1]).values,
