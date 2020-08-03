@@ -169,9 +169,9 @@ def handle_text_message(event):
 
     elif text == 'B3':
         empty_list = []
-        for event in ['学内イベント', 'マイナビ就職EXPO', 'リクナビイベント', 'MeetsCompany', 'キャリアチケットラボ',
+        for seminar in ['学内イベント', 'マイナビ就職EXPO', 'リクナビイベント', 'MeetsCompany', 'キャリアチケットラボ',
                       '就職エージェントneo', 'ジョブコミット', '利用していない']:
-            empty_list.append([event, sozo_df['イベント・セミナー'].apply(lambda y: event in y).mean().round(3) * 100])
+            empty_list.append([seminar, sozo_df['イベント・セミナー'].apply(lambda y: seminar in y).mean().round(3) * 100])
 
         df = pd.DataFrame(empty_list,
                           columns=['＜イベント・セミナー名＞', '＜割合＞']).sort_values(by='＜割合＞', ascending=False)
@@ -278,7 +278,7 @@ def handle_text_message(event):
         df['＜割合＞'] = df['＜割合＞'].astype(str).apply(lambda y: y[:4] + '%')
         df.index = np.arange(1, df.shape[0] + 1, 1)
 
-        fig, ax = plt.subplots(figsize=(5, 2))
+        fig, ax = plt.subplots(figsize=(5, 2.5))
         ax.axis('off')
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
@@ -300,7 +300,7 @@ def handle_text_message(event):
         df['＜割合＞'] = df['＜割合＞'].astype(str).apply(lambda y: y[:4] + '%')
         df.index = np.arange(1, df.shape[0] + 1, 1)
 
-        fig, ax = plt.subplots(figsize=(5, 3))
+        fig, ax = plt.subplots(figsize=(5.5, 2.5))
         ax.axis('off')
         ax.axis('tight')
         ax.table(cellText=df.values, rowLabels=df.index, colLabels=df.columns,
