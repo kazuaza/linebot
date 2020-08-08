@@ -729,9 +729,7 @@ def handle_text_message(event):
             + '(2020-08-03) 現役4年代のデータを追加しました\n' \
             + '(2020-08-08) OB1年代,OB2年代のデータを追加しました\n\n' \
             + 'If you have any questions, feel free to contact me!'
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=about_version))
-    
-    leif text=='    
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=about_version))  
 
     else:
         pass
