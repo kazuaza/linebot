@@ -721,7 +721,8 @@ def handle_text_message(event):
         obog = sozo_df_permit[sozo_df_permit['現在勤めている業界（任意）'].notna()][['お名前', '現在勤めている業界（任意）']]
         string = '＜OB・OG訪問＞\n' + '以下で業界（勤め先）と対応する工房員コードを表示しています\n\n'
         for name_code, gyokai in obog.values:
-            string += '・{} → {}\n'.format(gyokai, name_code)
+            string += '・{}→{}\n'.format(gyokai, name_code)
+        string = string.rstrip('\n')
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=string))
 
     elif text == 'version':
